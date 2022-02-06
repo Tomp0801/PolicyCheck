@@ -2,6 +2,8 @@ from flask import Flask, render_template
 import signal 
 import sys
 
+from versioning import Versioning
+
 app = Flask(__name__)
 
 navBar = [
@@ -25,6 +27,8 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 if __name__ == '__main__':
-	signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGINT, signal_handler)
 
-	app.run(debug=True, host='localhost', port=5008)
+    ver = Versioning("policies")
+
+    #app.run(debug=True, host='localhost', port=5008)
