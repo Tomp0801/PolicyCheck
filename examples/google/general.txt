@@ -1,0 +1,129 @@
+Datum: Wirksam ab dem 5. Januar 2022
+Link: https://policies.google.com/terms?hl=de#toc-using
+
+Nutzung der Google-Dienste
+Ihr Google-Konto
+
+Wenn Sie die Altersanforderungen erfüllen, können Sie sich ein Google-Konto einrichten. Für das Funktionieren einiger Dienste ist es erforderlich, dass Sie über ein Google-Konto verfügen – beispielsweise benötigen Sie für die Nutzung von Gmail ein Konto, um dort E-Mails senden und empfangen zu können.
+
+Sie sind für Ihre Handlungen im Zusammenhang mit Ihrem Google-Konto verantwortlich – dies umfasst auch angemessene Maßnahmen zum Schutz Ihres Kontos. Wir empfehlen Ihnen darüber hinaus, regelmäßig den Sicherheitscheck zu nutzen.
+Nutzung der Google-Dienste für eine Organisation oder ein Unternehmen
+Viele Organisationen wie Unternehmen, gemeinnützige Organisationen oder Bildungseinrichtungen nutzen unsere Dienste. Um unsere Dienste für eine Organisation zu nutzen,
+
+    muss ein autorisierter Vertreter dieser Organisation diesen Nutzungsbedingungen zustimmen.
+    kann Ihnen der Administrator Ihrer Organisation ein Google-Konto zuweisen. Dieser Administrator kann die Einhaltung zusätzlicher Regeln einfordern und unter Umständen auf Ihr Google-Konto zugreifen oder dieses deaktivieren.
+
+Wenn Sie in der Europäischen Union ansässig sind, wirken sich diese Nutzungsbedingungen nicht auf die Rechte aus, die Sie als gewerblicher Nutzer von Online-Vermittlungsdiensten - einschließlich Online-Plattformen wie Google Play - gemäß der Europäischen Platform-to-Business-Verordnung haben.
+Kommunikation bezüglich unserer Dienste
+
+Um Ihnen unsere Dienste anzubieten, senden wir Ihnen gelegentlich Dienstankündigungen und andere dienstbezogene Informationen. Weitere Informationen darüber, wie wir mit Ihnen kommunizieren, finden Sie in unserer Datenschutzerklärung.
+
+Wenn Sie sich entscheiden, uns Feedback zu geben, beispielsweise in Form von Vorschlägen zur Verbesserung unserer Dienste, dürfen wir Ihr Feedback aufgreifen, ohne Ihnen gegenüber verpflichtet zu sein.
+Inhalte in Google-Diensten
+Ihre Inhalte
+
+Einige unserer Dienste bieten Ihnen die Möglichkeit, Ihre Inhalte öffentlich zugänglich zu machen – beispielsweise können Sie eine von Ihnen verfasste Produkt – oder Restaurantbewertungen veröffentlichen oder einen von Ihnen erstellten Blogpost hochladen.
+
+    Im Abschnitt Erlaubnis zur Nutzung Ihrer Inhalte finden Sie weitere Informationen über Ihre Rechte in Bezug auf Ihre Inhalte und die Nutzung Ihrer Inhalte in unseren Diensten.
+    Im Abschnitt Ihre Inhalte entfernen erfahren Sie, wie und warum wir von Nutzern erstellte Inhalte aus unseren Diensten entfernen.
+
+Wenn Sie der Meinung sind, dass andere gegen Ihre geistigen Eigentumsrechte verstoßen, können Sie uns den Verstoß melden und wir werden geeignete Maßnahmen ergreifen. Beispielsweise sperren oder schließen wir Google-Konten nach wiederholten Verstößen gegen Urheberrechte, wie unter Hilfe zum Urheberrecht beschrieben.
+Google-Inhalte
+
+Einige unserer Dienste enthalten Inhalte, die Google gehören – beispielsweise viele der visuellen Darstellungen in Google Maps. Sie dürfen die Inhalte von Google gemäß diesen Nutzungsbedingungen und etwaigen dienstspezifischen Zusatzbedingungen verwenden, wir behalten jedoch sämtliche geistige Eigentumsrechte, die wir an unseren Inhalten haben. Unsere Marken und Logos sowie rechtliche Hinweise dürfen nicht entfernt, unkenntlich gemacht oder verändert werden. Falls Sie unsere Marken oder Logos verwenden möchten, informieren Sie sich bitte auf der Webseite Google Brand Permissions.
+Andere Inhalte
+
+Über einige unserer Dienste haben Sie zudem Zugriff auf Inhalte, die anderen Personen oder Organisationen gehören, beispielsweise die Beschreibung des eigenen Unternehmens durch den Inhaber oder ein Zeitungsartikel in Google News. Sie dürfen diese Inhalte nicht ohne die Erlaubnis dieser Person oder Organisation nutzen, sofern dies nicht anderweitig gesetzlich zulässig ist. Ansichten, die in den Inhalten anderer Personen oder Organisationen zum Ausdruck kommen, sind Ansichten der jeweiligen Personen oder Organisationen und entsprechen nicht notwendigerweise den Ansichten von Google.
+Software in Google-Diensten
+
+Einige unserer Dienste enthalten herunterladbare Software. Wir erteilen Ihnen die Erlaubnis, diese Software als Teil der Dienste zu nutzen.
+Diese Lizenz ist:
+
+    weltweit gültig – sie gilt also auf der ganzen Welt
+    nicht ausschließlich – wir können die Software also an Dritte lizenzieren
+    unentgeltlich – es fallen also keine monetären Gebühren für diese Lizenz an
+    persönlich – sie gilt also nur für Sie
+    nicht übertragbar – Sie können die Lizenz also nicht auf andere übertragen
+
+Einige unserer Dienste enthalten Software, die unter Open Source-Lizenzbedingungen angeboten wird. Manchmal gibt es in den Open Source-Lizenzen Bestimmungen, die Teilen dieser Nutzungsbedingungen ausdrücklich außer Kraft setzen. Bitte lesen Sie solche Lizenzbedingungen daher aufmerksam durch.
+
+Sie dürfen unsere Dienste oder Software oder Teile davon nicht kopieren, modifizieren, vertreiben, verkaufen oder vermieten.
+Bei Problemen oder Streitigkeiten
+
+Gesetzlich und gemäß diesen Nutzungsbedingungen haben Sie das Recht auf (1) eine bestimmte Qualität der Dienste und (2) Möglichkeiten, Probleme zu beheben, wenn etwas nicht funktioniert. Wenn Sie Verbraucher sind, haben Sie alle gesetzlichen Rechte, die Verbrauchern gemäß dem jeweils anwendbaren Recht gewährt werden, sowie alle zusätzlichen Rechte, die in diesen Nutzungsbedingungen oder in den dienstspezifischen Zusatzbedingungen definiert sind.
+Gesetzliche Gewährleistung
+
+Wenn Sie ein im Europäischen Wirtschaftsraum (EWR) ansässiger Verbraucher sind und unseren Nutzungsbedingungen zugestimmt haben, gilt für Sie gemäß dem im EWR anwendbaren Verbraucherrecht eine gesetzliche Gewährleistung für die digitalen Inhalte, Dienste oder Waren, die wir Ihnen bereitstellen. Im Rahmen dieser Gewährleistung haften wir für jeden Mangel, den Sie feststellen, vorbehaltlich der folgenden Voraussetzungen:
+
+    Sie stellen den Mangel innerhalb von zwei Jahren ab Erhalt der Waren (z. B. eines Smartphones) oder ab der einmaligen Bereitstellung von digitalen Inhalten oder Diensten (z. B. Kauf eines Films) fest.
+    Sie stellen den Mangel zu einem beliebigen Zeitpunkt während der „fortlaufenden“ Bereitstellung von digitalen Inhalten oder Diensten (z. B. Google Maps oder Gmail) fest.
+
+Möglicherweise schreiben die Gesetze Ihres Landes eine noch längere Gewährleistung vor. Ihre Ansprüche aus solchen gesetzlichen Gewährleistungen werden nicht durch andere gewerbliche Garantien eingeschränkt, die wir bieten. Wenn Sie einen Anspruch geltend machen möchten, können Sie sich unter diesem Link an uns wenden.
+Haftung
+Für alle Nutzer
+
+Diese Nutzungsbedingungen beschränken unsere Verantwortlichkeit nur im Rahmen der geltenden Gesetze. Diese Nutzungsbedingungen beschränken nicht die Haftung für Schäden aus einer Verletzung von Leben, Körper oder Gesundheit, für arglistig verschwiegene Mängel und für Schäden, die durch das Fehlen einer garantierten Beschaffenheit verursacht wurden sowie für grobe Fahrlässigkeit und Vorsatz. Darüber hinaus werden Ihre Rechte nach dem Produkthaftungsgesetz durch diese Nutzungsbedingungen nicht eingeschränkt.
+
+Im Fall von leicht fahrlässig durch Google oder gesetzliche Vertreter oder Erfüllungsgehilfen von Google verursachten Sach- und Vermögensschäden haftet Google nur im Fall der Verletzung wesentlicher Vertragspflichten und der Höhe nach begrenzt auf den bei Vertragsschluss vorhersehbaren und vertragstypischen Schaden. Eine wesentliche Vertragspflicht ist eine Pflicht, deren Erfüllung die ordnungsgemäße Durchführung eines Vertrages überhaupt erst ermöglicht und auf deren Einhaltung die Vertragsparteien regelmäßig vertrauen dürfen. Eine Änderung der Beweislast zu Ihrem Nachteil ist hiermit nicht verbunden.
+Nur für Unternehmer und Organisationen
+
+Wenn Sie ein Unternehmer oder eine Organisation sind:
+
+    Im Rahmen der geltenden Gesetze stellen Sie Google und die Geschäftsführer, leitenden Angestellten, Mitarbeiter und Auftragnehmer von jeglichen Gerichtsverfahren Dritter (einschließlich behördlicher Maßnahmen) frei (Freistellung), die sich aus oder im Zusammenhang mit Ihrer rechtswidrigen Nutzung der Dienste oder der Verletzung dieser Nutzungsbedingungen oder dienstspezifischer Zusatzbedingungen ergeben. Diese Freistellung gilt für jegliche Haftung oder Kosten, die sich aus Ansprüchen, Verlusten, Schäden, Urteilen, Geldbußen, Prozesskosten und Anwaltskosten nach den gesetzlichen Vorschriften ergeben.
+    Wenn Sie rechtlich von bestimmten Verpflichtungen befreit sind – z. B. durch Haftungsfreistellung – gelten diese Verpflichtungen gemäß diesen Nutzungsbedingungen für Sie nicht. Beispielsweise sind die Vereinten Nationen von bestimmten rechtlichen Verpflichtungen befreit – diese Nutzungsbedingungen gehen diesen Immunitäten nicht vor.
+
+Handeln bei Problemen
+
+Bevor wir die nachfolgend beschriebenen Maßnahmen ergreifen, werden wir Sie, wenn dies nach vernünftigem Ermessen möglich ist, im Voraus informieren, den Grund für unsere Maßnahme nennen und Ihnen die Möglichkeit geben, das Problem zu beheben, es sei denn, es gibt objektive und konkrete Gründe für die Annahme, dass dies:
+
+    Schäden oder eine Haftung bei einem Nutzer, bei Dritten oder bei Google zur Folge hätte
+    gegen das Gesetz oder die Anordnung einer Strafverfolgungsbehörde verstoßen würde
+    Ermittlungen gefährden würde
+    den Betrieb, die Integrität oder die Sicherheit unserer Dienste gefährden würde
+
+Entfernen Ihrer Inhalte
+
+Wenn es objektive und konkrete Gründe zu der Annahme gibt, dass einer Ihrer Inhalte (1) gegen diese Nutzungsbedingungen, die dienstspezifischen Zusatzbedingungen oder die Richtlinien verstößt, (2) geltende Gesetze verletzt oder (3) anderen Nutzern, Dritten oder Google Schaden zufügen könnte, behalten wir uns das Recht vor, diesen Inhalt in Übereinstimmung mit geltendem Recht zum Teil oder vollständig zu entfernen. Beispiele dafür sind kinderpornografische Inhalte, Inhalte, die Menschenhandel oder Belästigung ermöglichen, terroristische Inhalte sowie Inhalte, die geistige Eigentumsrechte anderer verletzen.
+Aussetzen oder Beenden Ihres Zugriffs auf Google-Dienste
+
+Google behält sich das Recht vor, Ihren Zugang zu den Diensten auszusetzen oder zu beenden oder Ihr Google-Konto zu löschen, wenn
+
+    Sie diese Nutzungsbedingungen, dienstspezifische Zusatzbedingungen oder Richtlinien auf erhebliche Weise oder wiederholt verletzen
+    wir verpflichtet sind, dies zu tun, um einer gesetzlichen Anforderung oder einem Gerichtsbeschluss nachzukommen oder
+    es objektive und konkrete Gründe für die Annahme gibt, dass Ihr Verhalten Schäden oder eine Haftung bei einem Nutzer, bei Dritten oder bei Google zur Folge hätte — beispielsweise im Fall von Hacking, Phishing, Belästigung, Spamming, Irreführung anderer oder Kopieren von Inhalten, die nicht Ihnen gehören
+
+Weitere Informationen zu den Gründen und den Folgen einer Kontodeaktivierung finden Sie auf dieser Hilfeseite. Wenn Sie glauben, dass Ihr Google-Konto zu Unrecht gekündigt oder der Zugriff darauf zu Unrecht ausgesetzt wurde, können Sie Beschwerde einlegen.
+
+Natürlich steht es Ihnen jederzeit frei, die Nutzung unserer Dienste einzustellen. Wenn Sie ein im Europäischen Wirtschaftsraum (EWR) ansässiger Verbraucher sind, können Sie auch innerhalb von vierzehn Tagen ab Ihrer ursprünglichen Annahme Ihre Zustimmung zu diesen Nutzungsbedingungen widerrufen. Falls Sie die Nutzung eines Dienstes einstellen, freuen wir uns über Ihr Feedback zu den Gründen, damit wir unsere Dienste weiter verbessern können.
+Bearbeitung von Anfragen zu Ihren Daten
+
+Die Achtung Ihrer Privatsphäre und der Sicherheit Ihrer Daten ist die Grundlage für unser Vorgehen bei der Beantwortung von Anfragen zur Datenherausgabe. Wenn wir Anfragen zur Datenherausgabe erhalten, überprüft unser Team diese, um sicherzustellen, dass sie den gesetzlichen Anforderungen und den Richtlinien zur Herausgabe von Daten durch Google entsprechen. In Übereinstimmung mit den Gesetzen Irlands und dem in Irland geltenden EU-Recht greift Google Ireland Limited auf Daten zu und gibt Daten einschließlich Kommunikationsinhalte heraus. Weitere Informationen zu Anfragen zur Datenherausgabe, und wie wir auf solche Anfragen reagieren, finden Sie in unserem Transparenzbericht und in unserer Datenschutzerklärung.
+Streitbeilegung, geltendes Recht und Gerichte
+
+Informationen zur Kontaktaufnahme mit Google finden Sie auf unserer Kontaktseite.
+
+Wenn Sie oder Ihre Organisation im Europäischen Wirtschaftsraum (EWR) oder in der Schweiz ansässig sind, unterliegen diese Nutzungsbedingungen und Ihr Nutzungsverhältnis mit Google gemäß diesen Nutzungsbedingungen sowie den dienstspezifischen Zusatzbedingungen dem Recht des Landes, in dem Sie Ihren Wohnsitz haben oder Ihre Organisation Ihren Sitz hat, und Sie können Rechtsstreitigkeiten vor Ihren lokalen Gerichten anhängig machen. Wenn Sie ein Verbraucher sind, der im Europäischen Wirtschaftsraum (EWR) ansässig ist, können Sie uns bei Problemen direkt kontaktieren. Wir bemühen uns dann um eine Lösung. Die Europäische Kommission stellt auch eine Plattform zur Online-Streitbeilegung bereit, allerdings ist Google gesetzlich nicht verpflichtet, diese oder andere Plattformen zur Streitbeilegung zu verwenden.
+Über diese Nutzungsbedingungen
+
+Sie haben per Gesetz bestimmte Rechte, die nicht durch vertragliche Regelungen wie diese Nutzungsbedingungen eingeschränkt werden können. Diese Nutzungsbedingungen zielen in keiner Weise darauf ab, diese Rechte einzuschränken.
+
+Wir möchten, dass diese Nutzungsbedingungen leicht zu verstehen sind – deshalb verwenden wir Beispiele aus unseren Diensten. Möglicherweise sind aber nicht alle erwähnten Dienste in Ihrem Land verfügbar.
+
+Wir behalten uns vor, diese Nutzungsbedingungen und dienstspezifische Zusatzbedingungen gegebenenfalls zu aktualisieren, um (1) Änderungen unserer Dienste oder unserer Geschäftsabläufe widerzuspiegeln, beispielsweise, wenn wir neue Dienste, Funktionen, Technologien, Preise oder Vorteile hinzufügen (oder alte entfernen), (2) aus rechtlichen, regulatorischen oder Sicherheitsgründen oder (3) um Missbrauch oder Schaden zu verhindern.
+
+Wenn wir diese Nutzungsbedingungen oder dienstspezifische Zusatzbedingungen ändern, informieren wir Sie mindestens 15 Tage vor dem Inkrafttreten der Änderungen im Voraus. Mit der Information über die Änderungen stellen wir Ihnen die neue Version der Nutzungsbedingungen zur Verfügung und weisen Sie auf wesentliche Änderungen hin. Wenn Sie nicht vor Inkrafttreten der Änderungen widersprechen, gelten die geänderten Nutzungsbedingungen als akzeptiert. In unserer Mitteilung wird dieser Widerspruchsprozess erläutert. Sie können die Annahme der Änderungen verweigern - in diesem Fall finden die Änderungen im Verhältnis zu Ihnen keine Anwendung. Wir behalten uns aber das Recht vor, unser Nutzungsverhältnis zu beenden, sofern die weiteren Voraussetzungen für eine Kündigung vorliegen. Sie können Ihr Nutzungsverhältnis mit uns auch jederzeit kündigen, indem Sie Ihr Google-Konto löschen.
+Widerrufsrecht im Europäischen Wirtschaftsraum (EWR)
+
+Wenn Sie ein Verbraucher sind, der im Europäischen Wirtschaftsraum (EWR) ansässig ist, sind Sie laut dem im EWR geltenden Verbraucherrecht ab dem 28. Mai 2022 dazu berechtigt, diesen Vertrag wie in der EU-Muster-Widerrufsbelehrung weiter unten beschrieben zu widerrufen.
+Widerrufsrecht
+
+Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu widerrufen.
+
+Die Widerrufsfrist beträgt vierzehn Tage ab dem Tag des Vertragsabschlusses.
+
+Um Ihr Widerrufsrecht auszuüben, müssen Sie uns mittels einer eindeutigen Erklärung (z. B. mit der Post versandter Brief oder E-Mail) über Ihren Entschluss, diesen Vertrag zu widerrufen, informieren. Das ist möglich per E-Mail an account-withdrawal@google.com, per Telefon unter der Nummer +353 1 533 9837 (siehe unten für landesspezifische Telefonnummern) oder per Post an Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Sie können dafür das beigefügte Muster-Widerrufsformular verwenden, das jedoch nicht vorgeschrieben ist. Sie können das Muster-Widerrufsformular oder eine andere eindeutige Erklärung auch auf unserer Webseite (g.co/EEAWithdrawalForm) elektronisch ausfüllen und übermitteln. Machen Sie von dieser Möglichkeit Gebrauch, so werden wir Ihnen unverzüglich (z. B. per E-Mail) eine Bestätigung über den Eingang eines solchen Widerrufs übermitteln.
+
+Zur Wahrung der Widerrufsfrist reicht es aus, dass Sie die Mitteilung über die Ausübung des Widerrufsrechts vor Ablauf der Widerrufsfrist absenden.
+Folgen des Widerrufs
+
+Wenn Sie diesen Vertrag widerrufen, haben wir Ihnen alle Zahlungen, die wir von Ihnen erhalten haben, einschließlich der Lieferkosten (mit Ausnahme der zusätzlichen Kosten, die sich daraus ergeben, dass Sie eine andere Art der Lieferung als die von uns angebotene, günstigste Standardlieferung gewählt haben), unverzüglich und spätestens binnen vierzehn Tagen ab dem Tag zurückzuzahlen, an dem die Mitteilung über Ihren Widerruf dieses Vertrags bei uns eingegangen ist. Für diese Rückzahlung verwenden wir dasselbe Zahlungsmittel, das Sie bei der ursprünglichen Transaktion eingesetzt haben, es sei denn, mit Ihnen wurde ausdrücklich etwas anderes vereinbart; in keinem Fall werden Ihnen wegen dieser Rückzahlung Entgelte berechnet.
