@@ -1,10 +1,11 @@
 from datetime import datetime
 import json
-from datetime import datetime
 import requests
 import hashlib
 import re
 import sys
+from diff import diffHtml
+from HtmlDoc import HtmlDoc
 
 class PolicyTypes:
     UserAgreement = "UserAgreement"
@@ -38,21 +39,26 @@ class Policy:
         policyObj.hash = jsonObj["hash"]
         policyObj.datePublished = datetime.strptime(jsonObj["datePublished"], Policy.dateFormat)
         policyObj.dateLastChecked = datetime.strptime(jsonObj["dateLastChecked"], Policy.dateFormat)
-        policyObj.content = jsonObj["content"]
+        policyObj.content = HtmlDoc.reduceToBody(jsonObj["content"])
         policyObj.plainText = jsonObj["plainText"]
 
         return policyObj
         
+    def loadContentFromFile(self, filename):
+        with open(filename, "r") as f:
+            self.content = HtmlDoc.reduceToBody(f.read())
 
     def update(self):
+        oldContent = self.content
         self.dateLastChecked = datetime.now()
         newPolicy = self.fetchPolicy()
         newHash = self.__getHash(newPolicy)
         if newHash != self.hash:
             print("The policy seems to have been updated!")
             self.hash = newHash
-            self.content = newPolicy
+            self.content = HtmlDoc.reduceToBody(newPolicy)
             self.HtmlToPlain()
+            self.lastDiff = diffHtml(oldContent, self.content)
             return True
         else:
             print("Policy hasn't changed")
@@ -75,6 +81,13 @@ class Policy:
         with open(jsonFile, "w") as f:
             f.write(self.toJson())
 
+    def toHtml(self, htmlFile, markDiffs=True):
+        with open(htmlFile, "w") as f:
+            if markDiffs:
+                f.write(self.lastDiff)
+            else:
+                f.write(self.content)
+
     def toJson(self):
         objDict = {}
         objDict["name"] = self.name
@@ -96,8 +109,13 @@ class Policy:
 #p = Policy("Reddit User Agreement", "https://www.redditinc.com/policies/user-agreement")
 
 
-p = Policy.fromJsonFile("test.json")
 
+p = Policy.fromJsonFile("test/test.json")
+p.loadContentFromFile("test/redditOld.html")
+#p.toHtml("test/test.html")
 p.update()
+p.toHtml("test/test2.html")
 
-p.toJsonFile("test.json")
+
+
+#p.toJsonFile("test/test2.json")
