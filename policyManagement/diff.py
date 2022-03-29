@@ -81,7 +81,8 @@ def diffHtml(fileOld, fileNew, useFiles=False):
     index = 0
     for op in opcodes:
         if op[0] == 'replace':
-            startTag = '<span style="color:blue"><b>'
+            tooltip = textOld[op[1]:op[2]]
+            startTag = '<span style="color:blue" title="' + tooltip + '"><b>'
             endTag = "</b></span>"
             start = op[3]
             end = op[4]
