@@ -1,11 +1,19 @@
 from difflib import SequenceMatcher, Differ, unified_diff
+from ntpath import join
+import opcode
 from pickletools import opcodes
 import sys
+from Opcodes import Opcode
+
 
 def diff(fileOld, fileNew, useFiles=False):
     if useFiles:
-        a = open(fileOld, 'r', encoding='utf-8').read()
-        b = open(fileNew, 'r', encoding='utf-8').read()
+        fh_a = open(fileOld, 'r', encoding='utf-8')
+        fh_b = open(fileNew, 'r', encoding='utf-8')
+        a = fh_a.read()
+        b = fh_b.read()
+        fh_a.close()
+        fh_b.close()
     else:
         a = fileOld
         b = fileNew
@@ -31,30 +39,23 @@ def diff(fileOld, fileNew, useFiles=False):
     print("%.3f %% equal" % (100* ops[3] / (ops[0] + ops[1] + ops[2] + ops[3])))
     print("%i opcodes, %i deletions, %i inserts, %i replacements, %i equal" % (len(opcodes), ops[1], ops[2], ops[0], ops[3]))
 
-    if useFiles:
-        a.close()
-        b.close()
-
     return opcodes
 
-def expandOpcode(opcode, textOld, textNew):
-    if opcode[0] == 'replace':
-        while textOld[opcode[1]] != ' ':
-            pass
-    elif opcode[0] == 'delete':
-        print("delete")
-        print(textOld[opcode[1]:opcode[2]])
-        while opcode[1] > 0 and textOld[opcode[1]].isalpha():
-            if opcode[1] > 0:
-                opcode[1] -= 1
-        while opcode[2] > 0 and textOld[opcode[2]].isalpha():
-            if opcode[2] < len(textOld):
-                opcode[2] += 1
+def reduceOpcodes(opcodes):
+    newCodes = []
+    for oc in opcodes:
+        if oc.type == 'equal':
+            continue
+        if len(newCodes) == 0:
+            newCodes.append(oc)
+        else:
+            joined = newCodes[-1].joinIfNeighbor(oc)
+            if not joined:
+                newCodes.append(oc)
 
-        print(textOld[opcode[1]:opcode[2]])
-    elif opcode[0] == 'insert':
-        pass
-
+    for oc in newCodes:
+        oc.expandReplace()
+    return newCodes
 
 
 def diffHtml(fileOld, fileNew, useFiles=False):
@@ -68,6 +69,17 @@ def diffHtml(fileOld, fileNew, useFiles=False):
     else:
         textOld = fileOld
         textNew = fileNew
+
+    oldLen = len(opcodes)
+    opcodes = Opcode.getOpcodeArray(opcodes, textOld, textNew)
+    for oc in opcodes:
+        print(oc)
+    opcodes = reduceOpcodes(opcodes)
+
+    print("opcodes reduced from %i to %i" % (oldLen, len(opcodes)))
+
+    for oc in opcodes:
+        print(oc)
 
     htmlBuild = ""
 
