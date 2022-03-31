@@ -4,6 +4,7 @@ import opcode
 from pickletools import opcodes
 import sys
 from Opcodes import Opcode
+from HtmlDoc import HtmlDoc
 
 
 def diff(fileOld, fileNew, useFiles=False):
@@ -72,8 +73,7 @@ def diffHtml(fileOld, fileNew, useFiles=False):
 
     oldLen = len(opcodes)
     opcodes = Opcode.getOpcodeArray(opcodes, textOld, textNew)
-    for oc in opcodes:
-        print(oc)
+ 
     opcodes = reduceOpcodes(opcodes)
 
     print("opcodes reduced from %i to %i" % (oldLen, len(opcodes)))

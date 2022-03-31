@@ -49,16 +49,29 @@ class Policy:
             self.content = HtmlDoc.reduceToBody(f.read())
 
     def update(self):
-        oldContent = self.content
         self.dateLastChecked = datetime.now()
         newPolicy = self.fetchPolicy()
+        print(newPolicy)
+        
+        return self._update(newPolicy)
+
+    def updateFromFile(self, filename):
+        with open(filename, "r") as f:
+            newPolicy = HtmlDoc.reduceToBody(f.read())
+        
+        return self._update(newPolicy)
+
+    def _update(self, newPolicy):
+        oldContent = self.plainText
+        
         newHash = self.__getHash(newPolicy)
         if newHash != self.hash:
             print("The policy seems to have been updated!")
             self.hash = newHash
-            self.content = HtmlDoc.reduceToBody(newPolicy)
+            self.content = HtmlDoc.removeJavaScript(HtmlDoc.reduceToBody(newPolicy))
             self.HtmlToPlain()
-            self.lastDiff = diffHtml(oldContent, self.content)
+
+            self.lastDiff = diffHtml(oldContent, self.plainText)
             return True
         else:
             print("Policy hasn't changed")
@@ -74,8 +87,7 @@ class Policy:
 
     def HtmlToPlain(self):
         # TODO reduce to only interesting div
-        temp = re.sub("<.*>", "", self.content)     # remove html tags
-        self.plainText = re.sub("\s\s+", "", temp)  # remove 2+ whitespaces
+        self.plainText = HtmlDoc.toPlainText(self.content)
 
     def toJsonFile(self, jsonFile):
         with open(jsonFile, "w") as f:
@@ -113,6 +125,7 @@ class Policy:
 p = Policy.fromJsonFile("test/test.json")
 p.loadContentFromFile("test/redditOld.html")
 #p.toHtml("test/test.html")
+#p.updateFromFile("test/test.html")
 p.update()
 p.toHtml("test/test2.html")
 
