@@ -10,8 +10,11 @@ class HtmlDoc:
 
     @staticmethod
     def toPlainText(content):
-        temp = re.sub("<br>", "\n", content)  # replace <br> with \n
-        temp = re.sub("<.*>", "", temp)     # remove html tags
+        temp = re.sub("<br ? /?>", "\n", content)  # replace <br> with \n
+
+        htmlTags = re.compile("<.*?>")
+
+        temp = re.sub(htmlTags, "", temp)     # remove html tags
         plainText = re.sub("\s\s+", "", temp)  # remove 2+ whitespaces
         return plainText
 
@@ -42,3 +45,4 @@ class HtmlDoc:
         else:
             print("Error?")
             return False
+

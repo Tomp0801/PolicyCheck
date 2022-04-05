@@ -51,7 +51,6 @@ class Policy:
     def update(self):
         self.dateLastChecked = datetime.now()
         newPolicy = self.fetchPolicy()
-        print(newPolicy)
         
         return self._update(newPolicy)
 
@@ -62,7 +61,7 @@ class Policy:
         return self._update(newPolicy)
 
     def _update(self, newPolicy):
-        oldContent = self.plainText
+        oldContent = self.content
         
         newHash = self.__getHash(newPolicy)
         if newHash != self.hash:
@@ -71,7 +70,7 @@ class Policy:
             self.content = HtmlDoc.removeJavaScript(HtmlDoc.reduceToBody(newPolicy))
             self.HtmlToPlain()
 
-            self.lastDiff = diffHtml(oldContent, self.plainText)
+            self.lastDiff = diffHtml(oldContent, self.content)
             return True
         else:
             print("Policy hasn't changed")
@@ -124,6 +123,9 @@ class Policy:
 
 p = Policy.fromJsonFile("test/test.json")
 p.loadContentFromFile("test/redditOld.html")
+with open("tmp/testOri.txt", "w") as f:
+    f.write(p.plainText)
+#p.toHtml("tmp/testOri.html", markDiffs=False)
 #p.toHtml("test/test.html")
 #p.updateFromFile("test/test.html")
 p.update()

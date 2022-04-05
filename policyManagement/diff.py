@@ -54,8 +54,11 @@ def reduceOpcodes(opcodes):
             if not joined:
                 newCodes.append(oc)
 
+    print("starting expanding")
     for oc in newCodes:
         oc.expandReplace()
+        oc.expandToTag()
+    print("expanding done")
     return newCodes
 
 

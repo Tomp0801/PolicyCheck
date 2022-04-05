@@ -69,6 +69,20 @@ class Opcode:
             self.endNew += 1
             self.endOld += 1
 
+    def expandToTag(self):
+        # TODO cant leave loop
+        if self.type == 'insert':
+            text = self.textNew[self.startNew:self.endNew]
+            if '<' in text and not '>' in text:
+                while self.endNew < len(self.textNew) and self.textNew[self.endNew] != '>':
+                    self.endNew += 1
+            if '>' in text and not '<' in text:
+                while self.startNew >= 1 and self.textNew[self.startNew-1] != '<':
+                    self.endNew -= 1
+                    
+
+            
+
 
     def __getitem__(self, item):
          return self.oc[item]
