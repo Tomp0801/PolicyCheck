@@ -127,7 +127,7 @@ p.loadContentFromFile("test/redditOld.html")
 #p.toHtml("test/test.html")
 #p.updateFromFile("test/test.html")
 p.update()
-p.toHtml("test/test2.html")
+p.toHtml("tmp/test2.html")
 
 
 
