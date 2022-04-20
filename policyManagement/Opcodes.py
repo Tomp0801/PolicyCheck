@@ -15,6 +15,12 @@ class Opcode:
     def copy(self):
         return Opcode(self.oc, self.textOld, self.textNew)
 
+    def getTextNew(self):
+        return self.textNew[self.startNew:self.endNew]
+    
+    def getTextOld(self):
+        return self.textOld[self.startOld:self.endOld]
+
     def joinIfNeighbor(self, otherOpcode):
         if self.isNeighboring(otherOpcode):
             return self.join(otherOpcode)
@@ -94,27 +100,28 @@ class Opcode:
                     newOpcodes.append(pc)
                 tagMatch = re.search(tagPattern, self.textNew[self.startNew:self.endNew])
             newOpcodes.append(self)
-            print("Split up an opcode, because it contained tags: ")
-            for oc in newOpcodes:
-                print(oc)
+            print("Split up an opcode into %i, because it contained tags" % len(newOpcodes))
             return newOpcodes
 
-        elif endsInTag:
-            index = self.textNew.find('<')
+        elif '<' in self.getTextNew():
+            text = self.getTextNew()
+            index = text.find('<')
             if index == -1:
-                print("Error: expected to find tag start in text '%s'", self.textNew)
+                print("Error: expected to find tag start in text '%s'", text)
                 return [self]
             else:
-                self.endNew = index
+                self.endNew = self.startNew + index
                 print("Clipped opcode <%s>, because it ended in a tag" % str(self))
                 return [self]
-        elif startsInTag:
-            index = self.textNew.find('>') + 1
+
+        elif '>' in self.getTextNew():
+            text = self.getTextNew()
+            index = text.find('>')
             if index == -1:
-                print("Error: expected to find tag end in text '%s'", self.textNew)
+                print("Error: expected to find tag end in text '%s'", text)
                 return [self]
             else:
-                self.startNew = index
+                self.startNew = self.startNew + index + 1
                 print("Clipped opcode <%s>, because it ended in a tag" % str(self))
                 return [self]
         elif not endsInTag and not startsInTag:
