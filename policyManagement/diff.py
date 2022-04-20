@@ -47,20 +47,19 @@ def reduceOpcodes(opcodes):
     for oc in opcodes:
         if oc.type == 'equal':
             continue
-        if len(newCodes) == 0:
-            newCodes.append(oc)
-        else:
-            joined = newCodes[-1].joinIfNeighbor(oc)
-            if not joined:
-                newCodes.append(oc)
+        checkAndAppend(newCodes, oc)
 
-    print("starting expanding")
-    for oc in newCodes:
-        oc.expandReplace()
-        oc.expandToTag()
-    print("expanding done")
     return newCodes
 
+def checkAndAppend(opcodeArray, opcode):
+    newOcs = opcode.expandToTag()
+    for oc in newOcs:
+        oc.expandReplace()
+        if len(opcodeArray) == 0:
+            opcodeArray.append(oc)
+        joined = opcodeArray[-1].joinIfNeighbor(oc)
+        if not joined:
+            opcodeArray.append(oc)
 
 def diffHtml(fileOld, fileNew, useFiles=False):
     opcodes = diff(fileOld, fileNew, useFiles=useFiles)

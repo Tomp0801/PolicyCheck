@@ -70,19 +70,57 @@ class Opcode:
             self.endOld += 1
 
     def expandToTag(self):
-        # TODO cant leave loop
-        if self.type == 'insert':
-            text = self.textNew[self.startNew:self.endNew]
-            if '<' in text and not '>' in text:
-                while self.endNew < len(self.textNew) and self.textNew[self.endNew] != '>':
-                    self.endNew += 1
-            if '>' in text and not '<' in text:
-                while self.startNew >= 1 and self.textNew[self.startNew-1] != '<':
-                    self.endNew -= 1
-                    
+        startsInTag, tagStart = self._startsInTag()
+        endsInTag, tagEnd = self._endsInTag()
 
-            
+        # entirely within a tag
+        if endsInTag and startsInTag:
+            print("Dropping opcode <%s>, because it is within a tag" % str(self))
+            return []
+        # partially in tag
+        elif endsInTag:
+            index = self.textNew.find('<')
+            if index == -1:
+                print("Error: expected to find tag start in text '%s'", self.textNew)
+                return [self]
+            else:
+                self.endNew = index
+                print("Clipped opcode <%s>, because it ended in a tag" % str(self))
+                return [self]
+        elif startsInTag:
+            index = self.textNew.find('>') + 1
+            if index == -1:
+                print("Error: expected to find tag end in text '%s'", self.textNew)
+                return [self]
+            else:
+                self.startNew = index
+                print("Clipped opcode <%s>, because it ended in a tag" % str(self))
+                return [self]
+        elif not endsInTag and not startsInTag:
+            return [self]
 
+        # TODO check if tag is within it and split?
+
+    def _startsInTag(self):
+        # find tag begin or end before start
+        index = self.startNew
+        while index > 0:
+            if self.textNew[index - 1] == '<':
+                return True, index
+            elif self.textNew[index - 1] == '>':
+                return False, index
+            index -= 1
+        return False, -1
+
+    def _endsInTag(self):
+        index = self.endNew
+        while index < len(self.textNew):
+            if self.textNew[index] == '>':
+                return True, index
+            elif self.textNew[index] == '<':
+                return False, index
+            index += 1
+        return False, -1
 
     def __getitem__(self, item):
          return self.oc[item]
