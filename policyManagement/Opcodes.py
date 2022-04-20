@@ -12,6 +12,9 @@ class Opcode:
         self.startNew = opcode[3]
         self.endNew = opcode[4]
 
+    def copy(self):
+        return Opcode(self.oc, self.textOld, self.textNew)
+
     def joinIfNeighbor(self, otherOpcode):
         if self.isNeighboring(otherOpcode):
             return self.join(otherOpcode)
@@ -77,7 +80,25 @@ class Opcode:
         if endsInTag and startsInTag:
             print("Dropping opcode <%s>, because it is within a tag" % str(self))
             return []
-        # partially in tag
+        # contains a complete tag
+        elif self._containsTag():
+            print("Opcode contains tag: <%s>" % str(self))
+            newOpcodes = []
+            tagPattern = re.compile("<.*>")
+            tagMatch = re.search(tagPattern, self.textNew[self.startNew:self.endNew])
+            while tagMatch:
+                partCode = self.copy()
+                partCode.endNew = self.startNew + tagMatch.start(0)
+                self.startNew = self.startNew + tagMatch.end(0)
+                for pc in partCode.expandToTag():
+                    newOpcodes.append(pc)
+                tagMatch = re.search(tagPattern, self.textNew[self.startNew:self.endNew])
+            newOpcodes.append(self)
+            print("Split up an opcode, because it contained tags: ")
+            for oc in newOpcodes:
+                print(oc)
+            return newOpcodes
+
         elif endsInTag:
             index = self.textNew.find('<')
             if index == -1:
@@ -100,6 +121,14 @@ class Opcode:
             return [self]
 
         # TODO check if tag is within it and split?
+
+    def _containsTag(self):
+        print(self)
+        text = self.textNew[self.startNew:self.endNew]
+        if ('<' in text) and ('>' in text):
+            return True
+        else:
+            return False
 
     def _startsInTag(self):
         # find tag begin or end before start
