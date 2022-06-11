@@ -15,7 +15,7 @@ class HtmlDoc:
         htmlTags = re.compile("<.*?>")
 
         temp = re.sub(htmlTags, "", temp)     # remove html tags
-        plainText = re.sub("\s\s+", "", temp)  # remove 2+ whitespaces
+        plainText = re.sub("\s\s+", " ", temp)  # remove 2+ whitespaces
         return plainText
 
     @staticmethod
