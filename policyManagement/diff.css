@@ -1,0 +1,40 @@
+.policyDiff {
+    background-color:lightgray;
+}
+
+.InsertNode {
+    color:green
+}
+
+.DeleteNode{
+    color:red;
+}
+
+.MoveNode {
+    color:aqua;
+}
+
+.InsertAttrib {
+    color:deepskyblue;
+}
+.DeleteAttrib {
+    color:deepskyblue;
+}
+.RenameAttrib {
+    color:deepskyblue;
+}
+.UpdateAttrib {
+    color:deepskyblue;
+}
+
+.UpdateTextIn {
+    color:blue;
+} 
+
+.UpdateTextAfter {
+    color:blueviolet;
+}
+
+.InsertComment {
+    color:burlywood;
+}
