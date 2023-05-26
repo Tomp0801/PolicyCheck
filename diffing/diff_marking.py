@@ -1,8 +1,4 @@
-import sys
-sys.path.append("../../xmldiff/")
-
 from xmldiff import main, actions, formatting
-from xmldiff import actions
 from lxml import etree
 import re
 from copy import deepcopy
@@ -18,7 +14,7 @@ def _change_index(s):
 def diff_mark_xml(old_tree, new_tree, add_head=True):
     formatter = formatting.XMLFormatter(normalize=formatting.WS_NONE, pretty_print=False, 
                                         text_tags=['p', 'span', 'h1', 'h2', 'h3', 'h4'], 
-                                        formatting_tags=['strong', 'b', 'i', 'br'])
+                                        formatting_tags=['strong', 'b', 'i', 'br'], use_replace=True)
     diff_xml = main.diff_trees(old_tree, new_tree, formatter=formatter, diff_options={'F':0.5, 'ratio_mode': 'accurate'})
     diff_tree = BeautifulSoup(diff_xml, 'lxml')
     for node in diff_tree.descendants:
@@ -43,6 +39,9 @@ def diff_mark_file(old_file, new_file, save_file, add_head=True):
         f.write(diff_xml)
 
 def _add_html_head(soup):
+    if not "html" in soup:
+        html_tag = soup.new_tag("html")
+        soup.insert(0, html_tag)
     head_tag = soup.new_tag("head")
     css_tag = soup.new_tag("link")
     css_tag['rel'] = "stylesheet" 
@@ -59,7 +58,7 @@ def _add_class(node, class_attrs):
             node.attrs['class'].append(attr)
 
 def _get_tooltip_child(node):
-    for child in node.children:
+    for child in node.contents:
         if child.name != "span":
             continue
         if not child.has_attr('class'):
@@ -73,7 +72,7 @@ def _add_tooltip(root, node, tooltip_text):
     _add_class(node, ['tooltip'])
     tooltip_node = _get_tooltip_child(node)
     if tooltip_node is not None:
-        tooltip_node.string += tooltip_text
+        tooltip_node.string += "<br>" + tooltip_text
     else:
         tooltip_text_node = root.new_tag('span')
         tooltip_text_node.string = tooltip_text
@@ -89,6 +88,17 @@ def _is_attr_modification(node):
         return True
     if 'diff:rename-attr' in node.attrs:
         return True
+    
+def _replace_text(node, new_text):
+    for c in node.contents:
+        if isinstance(c, NavigableString):
+            c.string.replace_with(new_text)
+
+def _get_text(node):
+    for c in node.contents:
+        if isinstance(c, NavigableString):
+            return c.string
+    return ""
 
 def _mark_node(root, node):
     if isinstance(node, NavigableString):
@@ -101,10 +111,16 @@ def _mark_node(root, node):
     elif node.name=="diff:delete":
         node.name = "span"
         _add_class(node, ['DeleteNode', 'PolicyDiff'])
+        _add_tooltip(root, node, f"Deleted '{_get_text(node)}'")
+        _replace_text(node, "[...]")
     elif 'diff:delete' in node.attrs:
         _add_class(node, ['DeleteNode', 'PolicyDiff'])
-    elif 'diff:replace':
-        pass # TODO
+        _add_tooltip(root, node, _get_text(node))
+        _replace_text(node, "[...]")
+    elif node.name=='diff:replace':
+        node.name = "span"
+        _add_class(node, ['UpdateTextIn', 'PolicyDiff'])
+        _add_tooltip(root, node, f"Changed from '{node.attrs['old-text']}'")
     elif _is_attr_modification(node):
         _add_class(node, ['AttribModification', 'PolicyDiff'])
         _add_tooltip(root, node, 'Attributes were modified')
