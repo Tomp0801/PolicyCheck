@@ -2,5 +2,7 @@
 
 flask == 2.0.2
 requests == 2.27.1
+beautifulsoup4==4.12.2
+xmldiff==2.6.3
 #versioning
 #lxml
