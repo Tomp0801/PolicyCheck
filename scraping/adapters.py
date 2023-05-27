@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup, NavigableString
+import itertools
 
 
 class Adapter:
@@ -14,12 +15,14 @@ class Adapter:
 
         with open(self.file , "r", encoding='utf-8') as f:
             self._raw_content = f.read()
+        self._root = BeautifulSoup(self._raw_content, "lxml")
         self._prepare_soup()
         self._remove_non_text()
         self._remove_empty_wrappers(["div", "p"])
+        self._sectionize(depth=6)
 
     def _prepare_soup(self):
-        self._soup = BeautifulSoup(self._raw_content, "lxml")
+        self._soup = self._root
 
     def get_contained_types(self):
         names = set()
@@ -45,6 +48,27 @@ class Adapter:
             if d.name==type:
                 texts.append(d.get_text())
         return texts
+    
+    def _sectionize(self, soup=None, h_tag=1, depth=4):
+        if soup is None:
+            soup = self._soup
+        # wrap all headings and next siblings into sections
+        section_tags = soup.find_all(f"h{h_tag}")
+        n = 1
+        for el in section_tags:
+            els = [i for i in itertools.takewhile(
+                    lambda x: x.name != el.name,
+                    el.next_siblings)]
+            section = self._root.new_tag('section')
+            section.attrs['level'] = f"{h_tag}"
+            section.attrs['n'] = f"{n}"
+            n += 1
+            el.wrap(section)
+            for tag in els:
+                section.append(tag)
+            if depth > h_tag:
+                self._sectionize(section, h_tag + 1, depth)
+
 
     @staticmethod
     def _download_file(url, file_name):
@@ -101,8 +125,7 @@ class RedditAdapter(Adapter):
         super().__init__(file, url)
 
     def _prepare_soup(self):
-        soup = BeautifulSoup(self._raw_content, "lxml")
-        self._soup = soup.find(id="content")
+        self._soup = self._root.find(id="content")
         self._remove_types(["select"])
         self._class_to_type("h4", "h4")
         self._class_to_type("h3", "h3")
@@ -113,6 +136,5 @@ class GoogleAdapter(Adapter):
         super().__init__(file, url)
 
     def _prepare_soup(self):
-        soup = BeautifulSoup(self._raw_content, "lxml")
-        self._soup = soup.find(attrs={"role": "article"})
+        self._soup = self._root.find(attrs={"role": "article"})
         self._remove_empty_wrappers(["c-wiz"])
