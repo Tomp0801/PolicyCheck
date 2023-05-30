@@ -56,19 +56,23 @@ class Adapter:
         section_tags = soup.find_all(f"h{h_tag}")
         n = 1
         for el in section_tags:
-            els = [i for i in itertools.takewhile(
-                    lambda x: x.name != el.name,
-                    el.next_siblings)]
-            section = self._root.new_tag('section')
+            section = self._wrap_with_siblings(el, "section")
             section.attrs['level'] = f"{h_tag}"
             section.attrs['n'] = f"{n}"
             n += 1
-            el.wrap(section)
-            for tag in els:
-                section.append(tag)
             if depth > h_tag:
                 self._sectionize(section, h_tag + 1, depth)
 
+    def _wrap_with_siblings(self, el, wrap_tag, stop_tags=[]):
+        stop_tags.append(el.name)
+        els = [i for i in itertools.takewhile(
+                lambda x: x.name not in stop_tags,
+                el.next_siblings)]
+        wrap_el = self._root.new_tag(wrap_tag)
+        el.wrap(wrap_el)
+        for tag in els:
+            wrap_el.append(tag)
+        return wrap_el
 
     @staticmethod
     def _download_file(url, file_name):
