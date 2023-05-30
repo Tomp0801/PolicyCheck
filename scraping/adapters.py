@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup, NavigableString
 import itertools
+import re
 
 
 class Adapter:
@@ -20,6 +21,7 @@ class Adapter:
         self._remove_non_text()
         self._remove_empty_wrappers(["div", "p"])
         self._sectionize(depth=6)
+        self._wrap_naked_text("p")
 
     def _prepare_soup(self):
         self._soup = self._root
@@ -63,8 +65,26 @@ class Adapter:
             if depth > h_tag:
                 self._sectionize(section, h_tag + 1, depth)
 
+    def _wrap_naked_text(self, wrap_with="p"):
+        formatting_tags = ["em", "strong", "b", "i", "u"]
+        whitespace = re.compile("\s+")
+        stop_tags = set(["section", "div", "p", "ul"])
+        stop_tags.add(wrap_with)
+        # dont wrap, if inside one of these tags:
+        dont_wrap_if_in = ["p", "a", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "li", "ul"]
+        for d in self._soup.descendants:
+            if isinstance(d, NavigableString):
+                # dont wrap whitespace
+                if re.fullmatch(whitespace, d):
+                    continue
+                # treat formatting tags as if they arent there
+                while d.parent.name in formatting_tags:
+                    d = d.parent
+                if not d.parent.name in dont_wrap_if_in:
+                    self._wrap_with_siblings(d, wrap_with, stop_tags)
+
     def _wrap_with_siblings(self, el, wrap_tag, stop_tags=[]):
-        stop_tags.append(el.name)
+        #stop_tags.append(el.name)
         els = [i for i in itertools.takewhile(
                 lambda x: x.name not in stop_tags,
                 el.next_siblings)]
