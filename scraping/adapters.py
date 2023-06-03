@@ -54,11 +54,13 @@ class Adapter:
     def _sectionize(self, soup=None, h_tag=1, depth=4):
         if soup is None:
             soup = self._soup
+        elif isinstance(soup, NavigableString):
+            return
         # wrap all headings and next siblings into sections
         section_tags = soup.find_all(f"h{h_tag}")
         n = 1
         for el in section_tags:
-            section = self._wrap_with_siblings(el, "section")
+            section = self._wrap_with_siblings(el, "section", stop_tags=[f"h{h_tag}"])
             section.attrs['level'] = f"{h_tag}"
             section.attrs['n'] = f"{n}"
             n += 1
@@ -66,7 +68,7 @@ class Adapter:
                 self._sectionize(section, h_tag + 1, depth)
 
     def _wrap_naked_text(self, wrap_with="p"):
-        formatting_tags = ["em", "strong", "b", "i", "u"]
+        formatting_tags = ["em", "strong", "b", "i", "u", "span"]
         whitespace = re.compile("\s+")
         stop_tags = set(["section", "div", "p", "ul"])
         stop_tags.add(wrap_with)
