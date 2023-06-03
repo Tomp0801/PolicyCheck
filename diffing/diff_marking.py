@@ -89,16 +89,20 @@ def _is_attr_modification(node):
     if 'diff:rename-attr' in node.attrs:
         return True
     
-def _replace_text(node, new_text):
+def _delete_contents(node):
+    node.string = ""
+
+def _set_text(node, new_text):
     for c in node.contents:
         if isinstance(c, NavigableString):
             c.string.replace_with(new_text)
 
 def _get_text(node):
-    for c in node.contents:
+    text = ""
+    for c in node.descendants:
         if isinstance(c, NavigableString):
-            return c.string
-    return ""
+            text += c.string
+    return text
 
 def _mark_node(root, node):
     if isinstance(node, NavigableString):
@@ -114,17 +118,24 @@ def _mark_node(root, node):
         else:
             node.name = "span"
             _add_class(node, ['DeleteNode', 'PolicyDiff'])
-            _add_tooltip(root, node, f"Deleted '{_get_text(node)}'")
-            _replace_text(node, "[...]")
+            _text = _get_text(node)
+            _delete_contents(node)
+            _add_tooltip(root, node, f"Deleted '{_text}'")
+            _set_text(node, "[...]")
     elif 'diff:delete' in node.attrs:
         if re.fullmatch("\s", _get_text(node)):
             pass
         else:
             _add_class(node, ['DeleteNode', 'PolicyDiff'])
-            _add_tooltip(root, node, f"Deleted '{_get_text(node)}'")
-            _replace_text(node, "[...]")
+            _text = _get_text(node)
+            _delete_contents(node)
+            _add_tooltip(root, node, f"Deleted '{_text}'")
+            _set_text(node, "[...]")
     elif node.name=='diff:replace':
         node.name = "span"
+        _add_class(node, ['UpdateTextIn', 'PolicyDiff'])
+        _add_tooltip(root, node, f"Changed from '{node.attrs['old-text']}'")
+    elif 'diff:replace' in node.attrs:
         _add_class(node, ['UpdateTextIn', 'PolicyDiff'])
         _add_tooltip(root, node, f"Changed from '{node.attrs['old-text']}'")
     elif _is_attr_modification(node):
