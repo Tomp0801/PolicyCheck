@@ -113,7 +113,7 @@ def _mark_node(root, node):
     elif 'diff:insert' in node.attrs:
         _add_class(node, ['InsertNode', 'PolicyDiff'])
     elif node.name=="diff:delete":
-        if re.fullmatch("\s", _get_text(node)):
+        if re.fullmatch("\s*", _get_text(node)):
             pass
         else:
             node.name = "span"
@@ -123,7 +123,7 @@ def _mark_node(root, node):
             _add_tooltip(root, node, f"Deleted '{_text}'")
             _set_text(node, "[...]")
     elif 'diff:delete' in node.attrs:
-        if re.fullmatch("\s", _get_text(node)):
+        if re.fullmatch("\s*", _get_text(node)):
             pass
         else:
             _add_class(node, ['DeleteNode', 'PolicyDiff'])
@@ -138,12 +138,12 @@ def _mark_node(root, node):
     elif 'diff:replace' in node.attrs:
         _add_class(node, ['UpdateTextIn', 'PolicyDiff'])
         _add_tooltip(root, node, f"Changed from '{node.attrs['old-text']}'")
-    elif _is_attr_modification(node):
-        _add_class(node, ['AttribModification', 'PolicyDiff'])
-        _add_tooltip(root, node, 'Attributes were modified')
     elif 'diff:rename' in node.attrs:
         _add_class(node, ['RenameNode', 'PolicyDiff'])
         _add_tooltip(root, node, f"This element was renamed from {node.attrs['diff:rename']} to {node.name}")
+    elif _is_attr_modification(node):
+        _add_class(node, ['AttribModification']) # 'PolicyDiff'
+        _add_tooltip(root, node, 'Attributes were modified')
     elif 'diff:' in node.name:
         print(f"Unhandled diff node {node.name}")
     else:
