@@ -5,7 +5,8 @@ import re
 
 
 class Adapter:
-    def __init__(self, file=None, url=None) -> None:
+    def __init__(self, file=None, url=None, 
+                 sectionize=True, wrap_text=True) -> None:
         if file is not None:
             self.file = file
         elif url is not None:
@@ -20,8 +21,12 @@ class Adapter:
         self._prepare_soup()
         self._remove_non_text()
         self._remove_empty_wrappers(["div", "p"])
-        self._sectionize(depth=6)
-        self._wrap_naked_text("p")
+        if sectionize:
+            self._sectionize(depth=6)
+        if wrap_text:
+            self._wrap_naked_text("p")
+        self._remove_classes()
+        self._remove_links()
 
     def _prepare_soup(self):
         self._soup = self._root
@@ -40,6 +45,19 @@ class Adapter:
                     classes.add(c)
         return list(classes)
     
+    def _remove_classes(self):
+        for d in self._soup.descendants:
+            if not isinstance(d, NavigableString) and 'class' in d.attrs:
+                del d['class']
+    
+    def _remove_links(self):
+        links = []
+        for d in self._soup.descendants:
+            if not isinstance(d, NavigableString) and d.name == "a":
+                links.append(d)
+        for l in links:
+            l.replace_with(NavigableString(l.get_text()))
+
     def save(self, file):
         with open(file, "w") as f:
             f.write(self._soup.prettify())

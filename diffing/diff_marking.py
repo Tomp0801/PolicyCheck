@@ -4,16 +4,28 @@ import re
 from bs4 import BeautifulSoup, NavigableString
 import os
 
-from .xml_utils import xml_add_class, xml_delete_contents, xml_get_text, xml_set_text
+from .xml_utils import xml_add_class, xml_delete_contents, xml_get_text, xml_set_text, xml_delete_empty
 
 class Differ:
-    def __init__(self, old, new):
+    def __init__(self, old, new, 
+                 F=0.5,
+                 ratio_mode='accurate', 
+                 use_replace=True):
         self._old_tree = Differ._get_tree(old)
         self._new_tree = Differ._get_tree(new)
+
+        self._diff_options = {'F': F, 'ratio_mode': ratio_mode}
+        self._formatter = formatting.XMLFormatter(normalize=formatting.WS_NONE, 
+                                        pretty_print=False, 
+                                        text_tags=['p', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'], 
+                                        formatting_tags=['strong', 'b', 'i', 'br', 'em', 'u'], 
+                                        use_replace=use_replace)
 
         self.make_diffs()
         for node in self._diff_soup.descendants:
             self._mark_node(node)
+        xml_delete_empty(self._diff_soup, tags=['span', 'p', 
+                                                 'diff:delete', 'diff:insert', 'diff:replace'])
         self._add_html_head()
 
     @staticmethod
@@ -31,15 +43,14 @@ class Differ:
             raise TypeError(f"XML source must be a path, XML string or etree.XML. Got {type(source)} instead")
 
     def make_diffs(self):
-        formatter = formatting.XMLFormatter(normalize=formatting.WS_NONE, pretty_print=False, 
-                                            text_tags=['p', 'span', 'h1', 'h2', 'h3', 'h4'], 
-                                            formatting_tags=['strong', 'b', 'i', 'br'], use_replace=True)
-        self._diff_tree = main.diff_trees(self._old_tree, self._new_tree, formatter=formatter, 
-                                   diff_options={'F':0.5, 'ratio_mode': 'accurate'})
+        self._diff_tree = main.diff_trees(self._old_tree, self._new_tree, 
+                                          formatter=self._formatter, 
+                                          diff_options=self._diff_options)
         self._diff_soup = BeautifulSoup(self._diff_tree, 'lxml')
         self._root = self._diff_soup
 
     def _mark_node(self, node):
+        # TODO some tags are not exclusive; multiple tags can be in one node
         if isinstance(node, NavigableString):
             pass
         elif node.name=="diff:insert":
@@ -79,6 +90,9 @@ class Differ:
         elif Differ._is_attr_modification(node):
             xml_add_class(node, ['AttribModification']) # 'PolicyDiff'
             self._add_tooltip(node, 'Attributes were modified')
+        elif 'diff:move' in node.attrs:
+            xml_add_class(node, ['MoveNode']) # 'PolicyDiff'
+            self._add_tooltip(node, f'Was moved from {node.attrs["old_path"]}')
         elif 'diff:' in node.name:
             print(f"Unhandled diff node {node.name}")
         else:

@@ -30,3 +30,14 @@ def xml_get_text(node):
             text += c.string
     return text
 
+def xml_delete_empty(soup, tags=['span', 'p']):
+    whitespace_pattern = re.compile("\s*", re.MULTILINE)
+    del_nodes = []
+    for d in soup.descendants:
+        if isinstance(d, NavigableString):
+            continue
+        if d.name in tags:
+            if re.fullmatch(whitespace_pattern, d.text):
+                del_nodes.append(d)
+    for n in del_nodes:
+        n.decompose()

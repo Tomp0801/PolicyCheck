@@ -18,5 +18,7 @@ for (in_file, out_file) in zip(files, save_files):
         adap = GoogleAdapter(in_file)
     adap.save(out_file)
 
-differ = Differ(save_files[0], save_files[1])
+differ = Differ(save_files[0], save_files[1], 
+                F=0.5, ratio_mode='accurate',
+                use_replace=True)
 differ.save("tmp/diff.html")
