@@ -4,7 +4,7 @@ import re
 from bs4 import BeautifulSoup, NavigableString
 import os
 
-from .xml_utils import xml_add_class, xml_delete_contents, xml_get_text, xml_set_text, xml_delete_empty
+from .xml_utils import xml_add_class, xml_delete_contents, xml_get_text, xml_set_text, xml_delete_empty, xml_has_direct_text
 
 class Differ:
     def __init__(self, old, new, 
@@ -50,24 +50,21 @@ class Differ:
         self._root = self._diff_soup
 
     def _mark_node(self, node):
-        # TODO some tags are not exclusive; multiple tags can be in one node
+        handled = False
         if isinstance(node, NavigableString):
-            pass
-        elif node.name=="diff:insert":
+            return
+        # rename to span if diff is node name
+        if node.name.startswith("diff:"):
+            node.attrs[node.name] = ""
             node.name = "span"
-            xml_add_class(node, ['InsertNode', 'PolicyDiff'])
-        elif 'diff:insert' in node.attrs:
-            xml_add_class(node, ['InsertNode', 'PolicyDiff'])
-        elif node.name=="diff:delete":
-            if re.fullmatch("\s*", xml_get_text(node)):
-                pass
+        
+        # insert, delete and replace
+        if 'diff:insert' in node.attrs:
+            if xml_has_direct_text(node):
+                xml_add_class(node, ['InsertNode', 'PolicyDiff'])
             else:
-                node.name = "span"
-                xml_add_class(node, ['DeleteNode', 'PolicyDiff'])
-                _text = xml_get_text(node)
-                xml_delete_contents(node)
-                self._add_tooltip(node, f"Deleted '{_text}'")
-                xml_set_text(node, "[...]")
+                xml_add_class(node, ['InsertEmptyNode', 'PolicyDiff'])
+            handled = True
         elif 'diff:delete' in node.attrs:
             if re.fullmatch("\s*", xml_get_text(node)):
                 pass
@@ -77,29 +74,35 @@ class Differ:
                 xml_delete_contents(node)
                 self._add_tooltip(node, f"Deleted '{_text}'")
                 xml_set_text(node, "[...]")
-        elif node.name=='diff:replace':
-            node.name = "span"
-            xml_add_class(node, ['UpdateTextIn', 'PolicyDiff'])
-            self._add_tooltip(node, f"Changed from '{node.attrs['old-text']}'")
+            handled = True
         elif 'diff:replace' in node.attrs:
             xml_add_class(node, ['UpdateTextIn', 'PolicyDiff'])
             self._add_tooltip(node, f"Changed from '{node.attrs['old-text']}'")
-        elif 'diff:rename' in node.attrs:
+            handled = True
+
+        # others: rename, attributes, moved
+        if 'diff:rename' in node.attrs:
             xml_add_class(node, ['RenameNode', 'PolicyDiff'])
             self._add_tooltip(node, f"This element was renamed from {node.attrs['diff:rename']} to {node.name}")
-        elif Differ._is_attr_modification(node):
+            handled = True
+        if Differ._is_attr_modification(node):
             xml_add_class(node, ['AttribModification']) # 'PolicyDiff'
-            self._add_tooltip(node, 'Attributes were modified')
-        elif 'diff:move' in node.attrs:
+            #self._add_tooltip(node, 'Attributes were modified')
+            handled = True
+        if 'diff:move' in node.attrs:
             xml_add_class(node, ['MoveNode']) # 'PolicyDiff'
             self._add_tooltip(node, f'Was moved from {node.attrs["old_path"]}')
-        elif 'diff:' in node.name:
-            print(f"Unhandled diff node {node.name}")
-        else:
-            for attr in node.attrs:
-                if 'diff:' in attr:
-                    print(f"Unhandled node '{node.name}' with attributes {node.attrs}")
-                    break
+            handled = True
+
+        # warn if unhandled
+        if not handled:
+            if 'diff:' in node.name:
+                print(f"Unhandled diff node {node.name}")
+            else:
+                for attr in node.attrs:
+                    if 'diff:' in attr:
+                        print(f"Unhandled node '{node.name}' with attributes {node.attrs}")
+                        break
     
     def xml_as_text(self):
         return self._diff_soup.prettify(encoding='utf-8').decode('utf-8')

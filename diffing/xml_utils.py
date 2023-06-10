@@ -30,6 +30,16 @@ def xml_get_text(node):
             text += c.string
     return text
 
+def xml_has_direct_text(node):
+    text = ""
+    for c in node:
+        if isinstance(c, NavigableString):
+            text += c.string
+    if text is None or re.fullmatch("\s*", text, re.MULTILINE):
+        return False
+    else:
+        return True
+
 def xml_delete_empty(soup, tags=['span', 'p']):
     whitespace_pattern = re.compile("\s*", re.MULTILINE)
     del_nodes = []
