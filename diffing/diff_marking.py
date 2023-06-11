@@ -3,6 +3,7 @@ from lxml import etree
 import re
 from bs4 import BeautifulSoup, NavigableString
 import os
+import Levenshtein
 
 from .xml_utils import xml_add_class, xml_delete_contents, xml_get_text, xml_set_text, xml_delete_empty, xml_has_direct_text
 
@@ -10,11 +11,18 @@ class Differ:
     def __init__(self, old, new, 
                  F=0.5,
                  ratio_mode='accurate', 
-                 use_replace=True):
+                 use_replace=True,
+                 make_ids=True):
+        self._whitespace_pattern = re.compile("\s*", re.MULTILINE)
         self._old_tree = Differ._get_tree(old)
         self._new_tree = Differ._get_tree(new)
 
-        self._diff_options = {'F': F, 'ratio_mode': ratio_mode}
+        unique_attrs = ["xml:id"]
+        if make_ids:
+            id_name = "node_id"
+            self.create_ids(id_name=id_name)
+            unique_attrs.append(id_name)
+        self._diff_options = {'F': F, 'ratio_mode': ratio_mode, 'uniqueattrs': unique_attrs}
         self._formatter = formatting.XMLFormatter(normalize=formatting.WS_NONE, 
                                         pretty_print=False, 
                                         text_tags=['p', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'], 
@@ -41,6 +49,47 @@ class Differ:
             return source
         else:
             raise TypeError(f"XML source must be a path, XML string or etree.XML. Got {type(source)} instead")
+        
+    def _is_identifiable(self, node, min_len=5):
+        if isinstance(node, NavigableString):
+            return False
+        if node.text is None or len(node.text) < min_len:
+            return False
+        if re.fullmatch(self._whitespace_pattern, node.text):
+            return False
+        return True
+
+    def find_match(self, node, tree):
+        if not self._is_identifiable(node):
+            return None
+        _max = 0
+        best_match = None
+        for d in tree.iter():
+            if not self._is_identifiable(d):
+                continue
+            dist = Levenshtein.distance(node.text, d.text)
+            if dist == 0:
+                return d
+            rating = (len(d.text) + len(node.text)) / dist
+            if rating > _max:
+                _max = rating
+                best_match = d
+        return best_match
+
+    def create_ids(self, id_name="node_id"):
+        id = 1
+        matched = 0
+        text_nodes = 0
+        for node in self._old_tree.iter():
+            if self._is_identifiable(node):
+                text_nodes += 1
+                match = self.find_match(node, self._new_tree)
+                if match is not None:
+                    matched += 1
+                    node.attrib[id_name] = f"{id:04}"
+                    match.attrib[id_name] = f"{id:04}"
+                    id += 1
+        print(f"Matched {matched} of {text_nodes} text nodes")
 
     def make_diffs(self):
         self._diff_tree = main.diff_trees(self._old_tree, self._new_tree, 
