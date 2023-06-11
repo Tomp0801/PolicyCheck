@@ -17,7 +17,7 @@ class Adapter:
 
         with open(self.file , "r", encoding='utf-8') as f:
             self._raw_content = f.read()
-        self._root = BeautifulSoup(self._raw_content, "lxml")
+        self._root = BeautifulSoup(self._raw_content, "lxml-xml")
         self._prepare_soup()
         self._remove_non_text()
         self._remove_empty_wrappers(["div", "p"])
