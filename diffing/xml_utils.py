@@ -1,5 +1,6 @@
 import re
-from bs4 import NavigableString
+from bs4 import BeautifulSoup, NavigableString
+from lxml import etree
 
 def xml_change_index(s):
     match = re.search("(.*)\[(\d+)\]$", s)
@@ -51,3 +52,9 @@ def xml_delete_empty(soup, tags=['span', 'p']):
                 del_nodes.append(d)
     for n in del_nodes:
         n.decompose()
+
+def soup_to_etree(soup):
+    return etree.XML(soup.encode())
+
+def etree_to_soup(tree):
+    return BeautifulSoup(etree.tostring(tree), "lxml-xml")
