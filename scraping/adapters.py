@@ -165,8 +165,8 @@ class Adapter:
 
 
 class RedditAdapter(Adapter):
-    def __init__(self, file=None, url=None) -> None:
-        super().__init__(file, url)
+    def __init__(self, file=None, url=None, sectionize=True, wrap_text=True) -> None:
+        super().__init__(file, url, sectionize, wrap_text)
 
     def _prepare_soup(self):
         self._soup = self._root.find(id="content")
@@ -176,8 +176,8 @@ class RedditAdapter(Adapter):
 
 
 class GoogleAdapter(Adapter):
-    def __init__(self, file=None, url=None) -> None:
-        super().__init__(file, url)
+    def __init__(self, file=None, url=None, sectionize=True, wrap_text=True) -> None:
+        super().__init__(file, url, sectionize, wrap_text)
 
     def _prepare_soup(self):
         self._soup = self._root.find(attrs={"role": "article"})
