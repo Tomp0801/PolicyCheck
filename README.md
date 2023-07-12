@@ -53,7 +53,32 @@ PolicyCheck is currently under active development.
 
 ## Planned Features
 
-    TBD
+### Summary and Simplification:
+
+* Automatic summarization and categorization of sections in terms of service documents.
+* Translation of complex texts into simplified language to improve understandability.
+* Highlighting important keywords and phrases.
+
+### Visual Representation:
+
+* Creation of visual diagrams to depict complex relationships and dependencies.
+* Graphical visualization of changes over time to make changes more apparent to users.
+* Interactive user interface for intuitive navigation and exploration of visualized terms of service.
+
+### Aspect Evaluation:
+
+* Identification and evaluation of important aspects in terms of service, such as privacy, liability limitations, intellectual property, etc.
+* Automatic generation of an overview of these aspects with corresponding ratings and explanations.
+* Customization of weighting and relevance of aspects based on individual user preferences.
+
+### Global Aspects:
+
+* Examination of common aspects across multiple terms of service to identify patterns and differences.
+* Comparison and evaluation of terms of service from different services or platforms to enable informed decisions for users.
+
+### Change Detection:
+
+* Tracking and presentation of changes in terms of service over time.
 
 ## Known Issues
 
