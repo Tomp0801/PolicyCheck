@@ -1,0 +1,74 @@
+.PolicyDiff {
+    background-color:lightgray;
+}
+
+.InsertNode {
+    color:green
+}
+
+.DeleteNode{
+    color:red;
+}
+
+.RenameNode {
+    color:blueviolet;
+}
+
+.MoveNode {
+    color:aqua;
+}
+
+.AttribModification {
+    color:deepskyblue;
+}
+
+.InsertAttrib {
+    color:deepskyblue;
+}
+.DeleteAttrib {
+    color:deepskyblue;
+}
+.RenameAttrib {
+    color:deepskyblue;
+}
+.UpdateAttrib {
+    color:deepskyblue;
+}
+
+.UpdateTextIn {
+    color:blue;
+} 
+
+.UpdateTextAfter {
+    color:blueviolet;
+}
+
+.InsertComment {
+    color:burlywood;
+}
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip .tooltiptext {
+    top: 100%;
+}
+
+/* Tooltip text */
+.tooltiptext {
+    visibility: hidden;
+    background-color: rgb(240, 240, 240);
+    color: rgb(73, 73, 73);
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
