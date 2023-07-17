@@ -1,23 +1,30 @@
+/*
 .PolicyDiff {
     background-color:lightgray;
 }
+*/
 
 .InsertNode {
-    color:green
+    border-style: dotted;
+    border-color: green;
 }
 
 .DeleteNode{
     color:red;
 }
 
+/*
 .RenameNode {
     color:blueviolet;
 }
+*/
 
 .MoveNode {
-    color:aqua;
+    border-style: dotted;
+    border-color: aqua;
 }
 
+/*
 .AttribModification {
     color:deepskyblue;
 }
@@ -33,15 +40,16 @@
 }
 .UpdateAttrib {
     color:deepskyblue;
-}
+}*/
 
 .UpdateTextIn {
     color:blue;
 } 
 
+/*
 .UpdateTextAfter {
     color:blueviolet;
-}
+}*/
 
 .InsertComment {
     color:burlywood;

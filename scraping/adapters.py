@@ -1,9 +1,12 @@
 import requests
 from bs4 import BeautifulSoup, NavigableString
+import itertools
+import re
 
 
 class Adapter:
-    def __init__(self, file=None, url=None) -> None:
+    def __init__(self, file=None, url=None, 
+                 sectionize=True, wrap_text=True) -> None:
         if file is not None:
             self.file = file
         elif url is not None:
@@ -14,12 +17,19 @@ class Adapter:
 
         with open(self.file , "r", encoding='utf-8') as f:
             self._raw_content = f.read()
+        self._root = BeautifulSoup(self._raw_content, "lxml-xml")
         self._prepare_soup()
         self._remove_non_text()
         self._remove_empty_wrappers(["div", "p"])
+        if sectionize:
+            self._sectionize(depth=6)
+        if wrap_text:
+            self._wrap_naked_text("p")
+        self._remove_classes()
+        self._remove_links()
 
     def _prepare_soup(self):
-        self._soup = BeautifulSoup(self._raw_content, "lxml")
+        self._soup = self._root
 
     def get_contained_types(self):
         names = set()
@@ -35,6 +45,19 @@ class Adapter:
                     classes.add(c)
         return list(classes)
     
+    def _remove_classes(self):
+        for d in self._soup.descendants:
+            if not isinstance(d, NavigableString) and 'class' in d.attrs:
+                del d['class']
+    
+    def _remove_links(self):
+        links = []
+        for d in self._soup.descendants:
+            if not isinstance(d, NavigableString) and d.name == "a":
+                links.append(d)
+        for l in links:
+            l.replace_with(NavigableString(l.get_text()))
+
     def save(self, file):
         with open(file, "w") as f:
             f.write(self._soup.prettify())
@@ -45,6 +68,51 @@ class Adapter:
             if d.name==type:
                 texts.append(d.get_text())
         return texts
+    
+    def _sectionize(self, soup=None, h_tag=1, depth=4):
+        if soup is None:
+            soup = self._soup
+        elif isinstance(soup, NavigableString):
+            return
+        # wrap all headings and next siblings into sections
+        section_tags = soup.find_all(f"h{h_tag}")
+        n = 1
+        for el in section_tags:
+            section = self._wrap_with_siblings(el, "section", stop_tags=[f"h{h_tag}"])
+            section.attrs['level'] = f"{h_tag}"
+            section.attrs['n'] = f"{n}"
+            n += 1
+            if depth > h_tag:
+                self._sectionize(section, h_tag + 1, depth)
+
+    def _wrap_naked_text(self, wrap_with="p"):
+        formatting_tags = ["em", "strong", "b", "i", "u", "span"]
+        whitespace = re.compile("\s+")
+        stop_tags = set(["section", "div", "p", "ul"])
+        stop_tags.add(wrap_with)
+        # dont wrap, if inside one of these tags:
+        dont_wrap_if_in = ["p", "a", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "li", "ul"]
+        for d in self._soup.descendants:
+            if isinstance(d, NavigableString):
+                # dont wrap whitespace
+                if re.fullmatch(whitespace, d):
+                    continue
+                # treat formatting tags as if they arent there
+                while d.parent.name in formatting_tags:
+                    d = d.parent
+                if not d.parent.name in dont_wrap_if_in:
+                    self._wrap_with_siblings(d, wrap_with, stop_tags)
+
+    def _wrap_with_siblings(self, el, wrap_tag, stop_tags=[]):
+        #stop_tags.append(el.name)
+        els = [i for i in itertools.takewhile(
+                lambda x: x.name not in stop_tags,
+                el.next_siblings)]
+        wrap_el = self._root.new_tag(wrap_tag)
+        el.wrap(wrap_el)
+        for tag in els:
+            wrap_el.append(tag)
+        return wrap_el
 
     @staticmethod
     def _download_file(url, file_name):
@@ -97,22 +165,20 @@ class Adapter:
 
 
 class RedditAdapter(Adapter):
-    def __init__(self, file=None, url=None) -> None:
-        super().__init__(file, url)
+    def __init__(self, file=None, url=None, sectionize=True, wrap_text=True) -> None:
+        super().__init__(file, url, sectionize, wrap_text)
 
     def _prepare_soup(self):
-        soup = BeautifulSoup(self._raw_content, "lxml")
-        self._soup = soup.find(id="content")
+        self._soup = self._root.find(id="content")
         self._remove_types(["select"])
         self._class_to_type("h4", "h4")
         self._class_to_type("h3", "h3")
 
 
 class GoogleAdapter(Adapter):
-    def __init__(self, file=None, url=None) -> None:
-        super().__init__(file, url)
+    def __init__(self, file=None, url=None, sectionize=True, wrap_text=True) -> None:
+        super().__init__(file, url, sectionize, wrap_text)
 
     def _prepare_soup(self):
-        soup = BeautifulSoup(self._raw_content, "lxml")
-        self._soup = soup.find(attrs={"role": "article"})
+        self._soup = self._root.find(attrs={"role": "article"})
         self._remove_empty_wrappers(["c-wiz"])

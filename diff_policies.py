@@ -1,6 +1,6 @@
 import sys
 from scraping.adapters import RedditAdapter, GoogleAdapter
-from diffing.diff_marking import diff_mark_file
+from diffing.diff_marking import Differ
 
 type = sys.argv[1]
 
@@ -18,4 +18,7 @@ for (in_file, out_file) in zip(files, save_files):
         adap = GoogleAdapter(in_file)
     adap.save(out_file)
 
-diff_mark_file(save_files[0], save_files[1], "tmp/diff.html")
+differ = Differ(save_files[0], save_files[1], 
+                F=0.5, ratio_mode='accurate',
+                use_replace=True)
+differ.save("tmp/diff.html")
