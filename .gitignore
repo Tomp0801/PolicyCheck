@@ -2,6 +2,5 @@ policies/
 __pycache__/
 tmp/
 test/
-test*
 .*
 *.ipynb
