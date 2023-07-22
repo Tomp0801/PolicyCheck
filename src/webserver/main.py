@@ -39,7 +39,7 @@ def prepare():
     file = request.args.get("file")
     type = request.args.get("type")
     if type and file:
-        result = prepare_file(file, type, wrap_text=True, sectionize=True)
+        result = prepare_file(file, type)
         return render_template_string(result)
     else:
         return render_template_string("Need type and file argument")
@@ -53,7 +53,7 @@ def diff():
         new = "~new.html"
         prepare_file(file_old, save=old)
         prepare_file(file_new, save=new)
-        diff = Differ(old, new, make_ids=False, use_replace=False, css_file="static/diff.css")
+        diff = Differ(old, new, make_ids=True, use_replace=True, css_file="static/diff.css")
         os.remove(old)
         os.remove(new)
         diff.save("src/webserver/~diff.html")
