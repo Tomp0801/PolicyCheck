@@ -200,6 +200,8 @@ class TwitterAdapter(Adapter):
 
     def _prepare_soup(self):
         self._soup = self._root.find("main")
+        if self._soup is None:
+            self._soup = self._root.find(id="main-content")
 
 
 def get_adapter_by_name(name, file=None, url=None, sectionize=True, wrap_text=True):
