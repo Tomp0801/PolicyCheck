@@ -1,10 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_file, request
 import signal 
 import sys
-
-from versioning import Versioning
+import os 
 
 app = Flask(__name__)
+
+examples_path = "examples/html"
 
 navBar = [
 	{'name':'Home', 'href':'/'},
@@ -21,7 +22,16 @@ def home():
 
 @app.route('/policies')
 def policies():
-    return render_template('policies.html', title="Policies", navBar=navBar)
+    policies = {}
+    folders = os.listdir(examples_path)
+    for folder in folders:
+        policies[folder] = os.listdir(os.path.join(examples_path, folder))
+    return render_template('policies.html', title="Policies", navBar=navBar, policies=policies)
+
+@app.route('/example')
+def example():
+    args = request.args
+    return send_file(os.path.join(examples_path, args.get("folder"), args.get("file")))
 
 def signal_handler(sig, frame):
     sys.exit(0)
@@ -29,6 +39,4 @@ def signal_handler(sig, frame):
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal_handler)
 
-    ver = Versioning("policies")
-
-    #app.run(debug=True, host='localhost', port=5008)
+    app.run(debug=True, host='localhost', port=5008)

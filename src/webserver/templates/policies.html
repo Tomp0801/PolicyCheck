@@ -1,6 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-
+{% for folder, files in policies.items() %}
+    <b>{{folder}}</b>
+    <ul>
+        {% for file in files %}
+            <li><a href="example?folder={{folder}}&file={{file}}">{{file}}</a></li>
+        {% endfor %}
+    </ul>
+{% endfor %}
 
 {% endblock %}
