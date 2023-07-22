@@ -20,13 +20,16 @@ class Adapter:
         self._root = BeautifulSoup(self._raw_content, "lxml-xml")
         self._prepare_soup()
         self._remove_non_text()
-        self._remove_empty_wrappers(["div", "p"])
+        # remove formatting
+        self._remove_wrappers(["div", "p"], only_if_empty=True)
+        self._remove_wrappers(["strong", "b", "i", "u", "em", "span"])
         if sectionize:
             self._sectionize(depth=6)
         if wrap_text:
             self._wrap_naked_text("p")
         self._remove_classes()
         self._remove_links()
+        # remove empty tags
 
     def _prepare_soup(self):
         self._soup = self._root
@@ -76,18 +79,22 @@ class Adapter:
             return
         # wrap all headings and next siblings into sections
         section_tags = soup.find_all(f"h{h_tag}")
+        while len(section_tags) == 0 and h_tag < depth:
+            h_tag += 1
+            section_tags = soup.find_all(f"h{h_tag}")
+
         n = 1
         for el in section_tags:
-            section = self._wrap_with_siblings(el, "section", stop_tags=[f"h{h_tag}"])
+            section = self._wrap_with_siblings(el, "section", stop_tags={f"h{h_tag}"})
             section.attrs['level'] = f"{h_tag}"
             section.attrs['n'] = f"{n}"
             n += 1
-            if depth > h_tag:
+            if depth >= h_tag:
                 self._sectionize(section, h_tag + 1, depth)
 
     def _wrap_naked_text(self, wrap_with="p"):
         formatting_tags = ["em", "strong", "b", "i", "u", "span"]
-        whitespace = re.compile("\s+")
+        whitespace = re.compile("\s+", re.MULTILINE)
         stop_tags = set(["section", "div", "p", "ul"])
         stop_tags.add(wrap_with)
         # dont wrap, if inside one of these tags:
@@ -101,10 +108,12 @@ class Adapter:
                 while d.parent.name in formatting_tags:
                     d = d.parent
                 if not d.parent.name in dont_wrap_if_in:
-                    self._wrap_with_siblings(d, wrap_with, stop_tags)
+                    self._wrap_with_siblings(d, wrap_with, stop_tags, stop_at_self=False)
 
-    def _wrap_with_siblings(self, el, wrap_tag, stop_tags=[]):
-        #stop_tags.append(el.name)
+    def _wrap_with_siblings(self, el, wrap_tag, stop_tags=[], stop_at_self=True):
+        stop_tags = list(stop_tags)
+        if stop_at_self:
+            stop_tags.append(el.name)
         els = [i for i in itertools.takewhile(
                 lambda x: x.name not in stop_tags,
                 el.next_siblings)]
@@ -135,12 +144,12 @@ class Adapter:
         for n in del_nodes:
             n.decompose()
 
-    def _remove_empty_wrappers(self, wrappers):
+    def _remove_wrappers(self, wrappers, only_if_empty=False):
         # first collect nodes, then delete them
         divs = []
         for d in self._soup.descendants:
             if d.name in wrappers:
-                if d.string is None:
+                if d.string is None or not only_if_empty:
                     divs.append(d)
         for d in divs:
             d.unwrap()
@@ -181,4 +190,4 @@ class GoogleAdapter(Adapter):
 
     def _prepare_soup(self):
         self._soup = self._root.find(attrs={"role": "article"})
-        self._remove_empty_wrappers(["c-wiz"])
+        self._remove_wrappers(["c-wiz"], only_if_empty=True)

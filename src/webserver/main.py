@@ -39,7 +39,7 @@ def prepare():
     file = request.args.get("file")
     type = request.args.get("type")
     if type and file:
-        result = prepare_file(file, type)
+        result = prepare_file(file, type, wrap_text=True, sectionize=True)
         return render_template_string(result)
     else:
         return render_template_string("Need type and file argument")

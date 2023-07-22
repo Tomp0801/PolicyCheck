@@ -5,7 +5,7 @@ from scraping.adapters import RedditAdapter, GoogleAdapter
 
 examples_path = "examples/html"
 
-def prepare_file(file, type=None, save=None):
+def prepare_file(file, type=None, save=None, sectionize=True, wrap_text=True):
     if type is None:
         type = os.path.split(file)[-2]
         file = os.path.join(examples_path, file)
@@ -13,9 +13,9 @@ def prepare_file(file, type=None, save=None):
         file = os.path.join(examples_path, type, file)
     print(type, file)
     if type=="reddit":
-        adap = RedditAdapter(file)
+        adap = RedditAdapter(file, sectionize=sectionize, wrap_text=wrap_text)
     elif type=="google":
-        adap = GoogleAdapter(file)
+        adap = GoogleAdapter(file, sectionize=sectionize, wrap_text=wrap_text)
     if save:
         adap.save(save)
     return adap._soup.prettify()
