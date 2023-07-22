@@ -62,19 +62,24 @@ class Differ:
     def find_match(self, node, tree):
         if not self._is_identifiable(node):
             return None
-        _max = 0
+        _min = 10000
         best_match = None
+        node_text = re.sub("\s+", " ", node.text, re.MULTILINE)
         for d in tree.iter():
             if not self._is_identifiable(d):
                 continue
-            dist = Levenshtein.distance(node.text, d.text)
+            d_text = re.sub("\s+", " ", d.text, re.MULTILINE)
+            dist = Levenshtein.distance(node_text, d_text, weights=(1, 1, 2))
             if dist == 0:
                 return d
-            rating = (len(d.text) + len(node.text)) / dist
-            if rating > _max:
-                _max = rating
+            rating = dist / ( (len(d_text) + len(node_text)) / 2 )
+            if rating < _min:
+                _min = rating
                 best_match = d
-        return best_match
+        if _min > 1.0:
+            return None
+        else:
+            return best_match
 
     def create_ids(self, id_name="node_id"):
         id = 1
@@ -85,10 +90,13 @@ class Differ:
                 text_nodes += 1
                 match = self.find_match(node, self._new_tree)
                 if match is not None:
-                    matched += 1
-                    node.attrib[id_name] = f"{id:04}"
-                    match.attrib[id_name] = f"{id:04}"
-                    id += 1
+                    if id_name in match.attrib:
+                        print(f"{match} already has id {match.attrib[id_name]}")
+                    else:
+                        matched += 1
+                        node.attrib[id_name] = f"{id:04}"
+                        match.attrib[id_name] = f"{id:04}"
+                        id += 1
         print(f"Matched {matched} of {text_nodes} text nodes")
 
     def make_diffs(self):
@@ -156,9 +164,15 @@ class Differ:
     def xml_as_text(self):
         return self._diff_soup.prettify(encoding='utf-8').decode('utf-8')
     
-    def save(self, filename):
+    def save(self, filename, save_old_new=None):
         with open(filename, "w") as f:
             f.write(self.xml_as_text())
+        if save_old_new is not None:
+            with open(f"{save_old_new}_old.html", "w") as f:
+                f.write(etree.tostring(self._old_tree, method="html", pretty_print=True).decode('utf-8'))
+            with open(f"{save_old_new}_new.html", "w") as f:
+                f.write(etree.tostring(self._new_tree, method="html", pretty_print=True).decode('utf-8'))
+            
 
     def _add_html_head(self):
         if not "html" in self._diff_soup:
