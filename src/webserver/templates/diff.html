@@ -2,4 +2,13 @@
 
 {% block content %}
 
+{% for folder, files in policies.items() %}
+    <b>{{folder}}</b>
+    <ul>
+        {% for file in files %}
+            <li>{{file}} : <a href="diff?old={{folder}}/{{file}}">Old</a> | <a href="{{req}}&new={{folder}}/{{file}}">New</a></li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
 {% endblock %}

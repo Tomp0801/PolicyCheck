@@ -12,10 +12,12 @@ class Differ:
                  F=0.5,
                  ratio_mode='accurate', 
                  use_replace=True,
-                 make_ids=True):
+                 make_ids=True,
+                 css_file="diff.css"):
         self._whitespace_pattern = re.compile("\s*", re.MULTILINE)
         self._old_tree = Differ._get_tree(old)
         self._new_tree = Differ._get_tree(new)
+        self._css = css_file
 
         unique_attrs = ["xml:id"]
         if make_ids:
@@ -182,7 +184,7 @@ class Differ:
         css_tag = self._diff_soup.new_tag("link")
         css_tag['rel'] = "stylesheet" 
         css_tag['type'] = "text/css"
-        css_tag['href'] = "diff.css"
+        css_tag['href'] = self._css
         head_tag.insert(0, css_tag)
         self._diff_soup.html.insert(0, head_tag)
 

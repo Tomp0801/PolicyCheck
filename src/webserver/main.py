@@ -1,14 +1,14 @@
 from flask import Flask, render_template, send_file, request, render_template_string
 import signal 
 import sys
-import os 
-sys.path.append("src/scraping")
-from adapters import RedditAdapter, GoogleAdapter
+import os
+sys.path.append("src")
+from diffing.diff_marking import Differ
+from utils import list_examples, prepare_file, get_example_file
 
 
 app = Flask(__name__)
 
-examples_path = "examples/html"
 
 navBar = [
 	{'name':'Home', 'href':'/'},
@@ -26,35 +26,41 @@ def home():
 
 @app.route('/policies')
 def policies():
-    policies = {}
-    folders = os.listdir(examples_path)
-    for folder in folders:
-        policies[folder] = os.listdir(os.path.join(examples_path, folder))
-    return render_template('policies.html', title="Policies", navBar=navBar, policies=policies)
+    return render_template('policies.html', title="Policies", 
+                           navBar=navBar, policies=list_examples())
 
 @app.route('/example')
 def example():
     args = request.args
-    return send_file(os.path.join(examples_path, args.get("folder"), args.get("file")))
+    return send_file(get_example_file(args.get("folder"), args.get("file")))
 
 @app.route('/prepare')
 def prepare():
     file = request.args.get("file")
     type = request.args.get("type")
     if type and file:
-        file = os.path.join(examples_path, file)
-        save_file = "tmp.html"
-        if type=="reddit":
-            adap = RedditAdapter(file)
-        elif type=="google":
-            adap = GoogleAdapter(file)
-        adap.save(save_file)
-        return render_template_string(adap._soup.prettify())
+        result = prepare_file(file, type)
+        return render_template_string(result)
+    else:
+        return render_template_string("Need type and file argument")
 
 @app.route('/diff')
 def diff():
-
-    return render_template('diff.html', title="Diff", navBar=navBar)
+    file_old = request.args.get("old")
+    file_new = request.args.get("new")
+    if file_old and file_new:
+        old = "~old.html"
+        new = "~new.html"
+        prepare_file(file_old, save=old)
+        prepare_file(file_new, save=new)
+        diff = Differ(old, new, make_ids=False, use_replace=False, css_file="static/diff.css")
+        os.remove(old)
+        os.remove(new)
+        diff.save("src/webserver/~diff.html")
+        return send_file("~diff.html")
+    else:
+        return render_template('diff.html', title="Diff", navBar=navBar, 
+                               policies=list_examples(), req=request.url)
 
 def signal_handler(sig, frame):
     sys.exit(0)
