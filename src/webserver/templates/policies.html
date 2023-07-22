@@ -6,7 +6,7 @@
     <ul>
         {% for file in files %}
             <li><a href="example?folder={{folder}}&file={{file}}">{{file}}</a> :
-                 <a href="prepare?type={{folder}}&file={{folder}}/{{file}}">Prepare</a> |
+                 <a href="prepare?type={{folder}}&file={{file}}">Prepare</a> |
                  <a href="diff?old={{folder}}/{{file}}">Diff</a></li>
         {% endfor %}
     </ul>
