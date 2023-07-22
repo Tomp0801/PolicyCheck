@@ -27,6 +27,22 @@ Install the dependencies:
 
 # Usage
 
+Start the webserver and prepare or diff files over the web interface. To save a resulting html file, you must save it in the browser.
+
+Instead, you can also run the prepare and diffing script directly.
+
+**Note**: Diffing is not yet stable for all files.
+
+## Webserver
+
+Launch the application:
+
+```bash
+python src/webserver/main.py
+```
+
+Navigate to the web interface by opening your browser and accessing the following URL: http://localhost:5008.
+
 ## Preparing a policy
 
 ```bash
@@ -42,18 +58,6 @@ python mark_diffs.py <old_file.html> <new_file.html> <output_file.html>
 Old and new file must have been prepared with `clean_up.py`.
 
 Place the result into the same folder as `diff.css` to mark insert, deleted and changed parts.
-
-## Website
-
-To use PolicyCheck, follow these steps:
-
-Launch the application:
-
-    python main.py
-
-Navigate to the web interface by opening your browser and accessing the following URL: http://localhost:8000.
-
-No features are added to the website yet.
 
 # License
 
