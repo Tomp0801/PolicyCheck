@@ -1,5 +1,5 @@
 import requests
-from bs4 import BeautifulSoup, NavigableString
+from bs4 import BeautifulSoup, NavigableString, Comment
 import itertools
 import re
 
@@ -142,7 +142,10 @@ class Adapter:
             if d.get_text() is None or d.get_text()=="":
                 del_nodes.append(d)
         for n in del_nodes:
-            n.decompose()
+            if isinstance(n, Comment):
+                n.extract()
+            else:
+                n.decompose()
 
     def _remove_wrappers(self, wrappers, only_if_empty=False):
         # first collect nodes, then delete them
@@ -183,7 +186,6 @@ class RedditAdapter(Adapter):
         self._class_to_type("h4", "h4")
         self._class_to_type("h3", "h3")
 
-
 class GoogleAdapter(Adapter):
     def __init__(self, file=None, url=None, sectionize=True, wrap_text=True) -> None:
         super().__init__(file, url, sectionize, wrap_text)
@@ -191,3 +193,21 @@ class GoogleAdapter(Adapter):
     def _prepare_soup(self):
         self._soup = self._root.find(attrs={"role": "article"})
         self._remove_wrappers(["c-wiz"], only_if_empty=True)
+
+class TwitterAdapter(Adapter):
+    def __init__(self, file=None, url=None, sectionize=True, wrap_text=True) -> None:
+        super().__init__(file, url, sectionize, wrap_text)
+
+    def _prepare_soup(self):
+        self._soup = self._root.find("main")
+
+
+def get_adapter_by_name(name, file=None, url=None, sectionize=True, wrap_text=True):
+    if name.lower()=="reddit":
+        return RedditAdapter(file, url=url, sectionize=sectionize, wrap_text=wrap_text)
+    elif name.lower()=="google":
+        return GoogleAdapter(file, url=url, sectionize=sectionize, wrap_text=wrap_text)
+    elif name.lower()=="twitter":
+        return TwitterAdapter(file, url=url, sectionize=sectionize, wrap_text=wrap_text)
+    else:
+        return Adapter(file, url, sectionize=sectionize, wrap_text=wrap_text)
