@@ -27,6 +27,24 @@ Install the dependencies:
 
 # Usage
 
+## Preparing a policy
+
+```bash
+python clean_up.py <input_file.html> <type [reddit | google]> <output_file.html>
+```
+
+## Diffing policies
+
+```bash
+python mark_diffs.py <old_file.html> <new_file.html> <output_file.html>
+```
+
+Old and new file must have been prepared with `clean_up.py`.
+
+Place the result into the same folder as `diff.css` to mark insert, deleted and changed parts.
+
+## Website
+
 To use PolicyCheck, follow these steps:
 
 Launch the application:
@@ -35,7 +53,9 @@ Launch the application:
 
 Navigate to the web interface by opening your browser and accessing the following URL: http://localhost:8000.
 
-License
+No features are added to the website yet.
+
+# License
 
 This project is licensed under the [MIT License](License).
 
