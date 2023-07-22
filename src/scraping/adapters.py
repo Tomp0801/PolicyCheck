@@ -17,7 +17,7 @@ class Adapter:
 
         with open(self.file , "r", encoding='utf-8') as f:
             self._raw_content = f.read()
-        self._root = BeautifulSoup(self._raw_content, "lxml-xml")
+        self._root = BeautifulSoup(self._raw_content, "lxml-html")
         self._prepare_soup()
         self._remove_non_text()
         # remove formatting
