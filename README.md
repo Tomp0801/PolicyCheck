@@ -15,10 +15,7 @@ Follow these steps to install and set up PolicyCheck:
 1. Clone xmldiff fork - a modified library required by PolicyCheck
 
     ```shell
-    git clone https://github.com/Tomp0801/xmldiff.git
-    cd xmldiff
-    git checkout develop
-    cd ..
+    git clone -b develop https://github.com/Tomp0801/xmldiff.git xmldiff
     ```
 
 2. Clone this repository
