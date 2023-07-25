@@ -12,26 +12,40 @@ PolicyCheck is an application aimed at making terms of service more understandab
 
 Follow these steps to install and set up PolicyCheck:
 
-1. Clone the repository:
+1. Clone xmldiff fork - a modified library required by PolicyCheck
 
-   ```shell
-   git clone https://github.com/your-username/PolicyCheck.git
+    ```shell
+    git clone https://github.com/Tomp0801/xmldiff.git
+    cd xmldiff
+    git checkout develop
+    cd ..
+    ```
 
-Navigate to the project directory:
-    
+2. Clone this repository
+
+    ```shell
+    git clone https://github.com/your-username/PolicyCheck.git
     cd PolicyCheck
+    ```
 
-Install the dependencies:
+3. Optionally, setup a virtual python environment
 
+    ```shell
+    python -m venv .venv
+    . .venv/bin/activate # or .venv/bin/Activate.ps1 on windows
+    ```
+
+4. Install the dependencies 
+
+    ```shell
     pip install -r requirements.txt
+    ```
 
 # Usage
 
 Start the webserver and prepare or diff files over the web interface. To save a resulting html file, you must save it in the browser.
 
 Instead, you can also run the prepare and diffing script directly.
-
-**Note**: Diffing is not yet stable for all files.
 
 ## Webserver
 

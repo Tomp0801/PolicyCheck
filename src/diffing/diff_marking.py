@@ -1,3 +1,5 @@
+import sys
+sys.path.append("../xmldiff")
 from xmldiff import main, formatting
 from lxml import etree
 import re
