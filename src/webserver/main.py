@@ -10,6 +10,8 @@ from utils import list_examples, prepare_file, get_example_file
 app = Flask(__name__)
 
 
+css_style = "static/diff_strikethrough.css"
+
 navBar = [
 	{'name':'Home', 'href':'/'},
 	{'name':'Policies', 'href':'/policies'},
@@ -53,7 +55,7 @@ def diff():
         new = "~new.html"
         prepare_file(file_old, save=old)
         prepare_file(file_new, save=new)
-        diff = Differ(old, new, make_ids=True, use_replace=True, css_file="static/diff.css")
+        diff = Differ(old, new, make_ids=True, use_replace=True, css_file=css_style)
         os.remove(old)
         os.remove(new)
         diff.save("src/webserver/~diff.html")

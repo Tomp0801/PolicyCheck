@@ -133,12 +133,12 @@ class Differ:
                 xml_add_class(node, ['DeleteNode', 'PolicyDiff'])
                 _text = xml_get_text(node)
                 xml_delete_contents(node)
-                self._add_tooltip(node, f"Deleted '{_text}'")
+                self._add_sub_node(node, 'DeleteNodeOld', _text)
                 xml_set_text(node, "[...]")
             handled = True
         elif 'diff:replace' in node.attrs:
             xml_add_class(node, ['UpdateTextIn', 'PolicyDiff'])
-            self._add_tooltip(node, f"Changed from '{node.attrs['old-text']}'")
+            self._add_sub_node(node, 'UpdateTextInOld', node.attrs['old-text'])
             handled = True
 
         # others: rename, attributes, moved
@@ -189,6 +189,12 @@ class Differ:
         css_tag['href'] = self._css
         head_tag.insert(0, css_tag)
         self._diff_soup.html.insert(0, head_tag)
+
+    def _add_sub_node(self, node, node_class, text, type='span'):
+        text_node = self._root.new_tag(type)
+        text_node.string = text
+        xml_add_class(text_node, [node_class])
+        node.insert(0, text_node)
 
     def _add_tooltip(self, node, tooltip_text):
         xml_add_class(node, ['tooltip'])

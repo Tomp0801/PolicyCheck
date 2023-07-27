@@ -1,0 +1,73 @@
+/* Unused classes
+
+.AttribModification 
+.InsertAttrib
+.DeleteAttrib
+.RenameAttrib
+.UpdateAttrib
+.UpdateTextAfter
+.PolicyDiff
+.RenameNode
+.InsertComment
+*/
+
+
+.InsertNode {
+    background: rgb(199, 255, 199);
+}
+
+.MoveNode {
+    border-style: dotted;
+    border-color: aqua;
+}
+
+/**************** DELETING ****************/
+
+.DeleteNode{
+    color:rgb(255, 0, 0);
+    position: relative;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.DeleteNode:hover .DeleteNodeOld {
+    visibility: visible;
+}
+
+/* Tooltip text */
+.DeleteNodeOld {
+    top: 100%;
+    visibility: hidden;
+    background-color: rgb(255, 193, 193);
+    color: black;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/**************** UPDATING ****************/
+
+.UpdateTextIn {
+    background: rgb(173, 173, 255);
+    position: relative;
+} 
+
+.UpdateTextIn:hover .UpdateTextInOld {
+    visibility: visible;
+}
+
+/* Tooltip text */
+.UpdateTextInOld {
+    top: 100%;
+    visibility: hidden;
+    background-color: rgb(173, 173, 255);
+    color: black;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}

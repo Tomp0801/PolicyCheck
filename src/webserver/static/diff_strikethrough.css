@@ -1,0 +1,45 @@
+
+/* Unused classes
+
+.AttribModification 
+.InsertAttrib
+.DeleteAttrib
+.RenameAttrib
+.UpdateAttrib
+.UpdateTextAfter
+.PolicyDiff
+.RenameNode
+.InsertComment
+*/
+
+.InsertNode {
+    background: rgb(199, 255, 199);
+}
+
+.MoveNode {
+    border-style: dotted;
+    border-color: aqua;
+}
+
+
+/**************** DELETING ****************/
+
+.DeleteNode{
+    visibility: hidden;
+    background:rgb(255, 193, 193);
+}
+.DeleteNodeOld{
+    visibility:visible;
+    text-decoration:line-through;
+    background:rgb(255, 193, 193);
+}
+
+/**************** UPDATING ****************/
+
+.UpdateTextIn {
+    background: rgb(173, 173, 255);
+} 
+.UpdateTextInOld {
+    text-decoration:line-through;
+    background: rgb(209, 209, 255);
+}
