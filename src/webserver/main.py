@@ -9,8 +9,11 @@ from utils import list_examples, prepare_file, get_example_file
 
 app = Flask(__name__)
 
-
-css_style = "static/diff_strikethrough.css"
+style_options = {
+    "Strikethrough" : "diff_strikethrough.css",
+    "Tooltips" : "diff_tooltips.css"
+}
+css_style = "Strikethrough"
 
 navBar = [
 	{'name':'Home', 'href':'/'},
@@ -18,23 +21,25 @@ navBar = [
     {'name':'Diff', 'href':'/diff'}
 ]
 
-policyLinks = [
-    "https://www.redditinc.com/policies/user-agreement"
-]
+def render_with_layout(template, title, **kwargs):
+    return render_template(template, title=title, navBar=navBar, 
+                           css_file=style_options[css_style], **kwargs)
+
 
 @app.route('/')
 def home():
-    return render_template('index.html', title="Home", navBar=navBar)
+    return render_with_layout('index.html', title="Home", page_content="Hello there")
 
 @app.route('/policies')
 def policies():
-    return render_template('policies.html', title="Policies", 
-                           navBar=navBar, policies=list_examples())
+    return render_with_layout('policies.html', title="Policies", 
+                           policies=list_examples())
 
 @app.route('/example')
 def example():
     args = request.args
-    return send_file(get_example_file(args.get("folder"), args.get("file")))
+    return render_with_layout("file.html", title="Policies",
+                              html_file=get_example_file(args.get("folder"), args.get("file")))
 
 @app.route('/prepare')
 def prepare():
@@ -55,14 +60,23 @@ def diff():
         new = "~new.html"
         prepare_file(file_old, save=old)
         prepare_file(file_new, save=new)
-        diff = Differ(old, new, make_ids=True, use_replace=True, css_file=css_style)
+        diff = Differ(old, new, make_ids=True, use_replace=True)
         os.remove(old)
         os.remove(new)
-        diff.save("src/webserver/~diff.html")
-        return send_file("~diff.html")
+        diff.save("src/webserver/templates/~diff.html", add_head=False)
+        return render_with_layout("file.html", title="Diff", 
+                               html_file="~diff.html")
     else:
-        return render_template('diff.html', title="Diff", navBar=navBar, 
+        return render_with_layout('diff.html', title="Diff", 
                                policies=list_examples(), req=request.url)
+
+@app.route('/style')
+def set_style():
+    global css_style
+    style = request.args.get("style")
+    if style in style_options.keys():
+        css_style = style
+    return render_with_layout('index.html', title="Home", page_content="Hello there")
 
 def signal_handler(sig, frame):
     sys.exit(0)

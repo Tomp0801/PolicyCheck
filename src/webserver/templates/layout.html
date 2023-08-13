@@ -11,6 +11,9 @@
 	<title>{{ title }}</title>
 	<link rel="shortcut icon" href="static/favicon.ico">
 	
+	<link id="style-strikethrough" href="static/diff_strikethrough.css" rel="stylesheet alternate">
+	<link id="style-tooltips" href="static/diff_tooltips.css" rel="stylesheet">
+
 	{% block css %}{% endblock %}
 </head>
 
@@ -29,5 +32,19 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
+	<script>
+		const styles = ["style-strikethrough", "style-tooltips"];
+
+		function setStyleSheet(sheet) {
+			for (let node_id of styles) {
+				el = document.getElementById(node_id);  
+				if (node_id==sheet) {
+					el.rel = 'stylesheet';
+				} else {
+					el.rel = 'stylesheet alternate';
+				}
+			}
+		}
+  	</script>
 	{% block script %}{% endblock %}
 </html>
