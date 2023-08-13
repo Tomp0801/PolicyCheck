@@ -38,7 +38,6 @@ class Differ:
             self._mark_node(node)
         xml_delete_empty(self._diff_soup, tags=['span', 'p', 
                                                  'diff:delete', 'diff:insert', 'diff:replace'])
-        self._add_html_head()
 
     @staticmethod
     def _get_tree(source):
@@ -168,7 +167,9 @@ class Differ:
     def xml_as_text(self):
         return self._diff_soup.prettify(encoding='utf-8').decode('utf-8')
     
-    def save(self, filename, save_old_new=None):
+    def save(self, filename, save_old_new=None, add_head=False):
+        if add_head:
+            self._add_html_head()
         with open(filename, "w") as f:
             f.write(self.xml_as_text())
         if save_old_new is not None:
