@@ -4,5 +4,8 @@ flask == 2.0.2
 requests == 2.27.1
 beautifulsoup4==4.12.2
 xmldiff==2.6.3
+transformers==4.32.1 
+torch==2.0.1
+scipy==1.11.2 
 #versioning
 #lxml
